@@ -9,11 +9,12 @@ img {
 table {
     margin: auto;
     background-color: #8789a5;
-    max-width: min-content;
+    max-width: 500px;
 }
 
 td {
     border: solid 2px;
+    min-width: 250px;
 }
 
 .container {
