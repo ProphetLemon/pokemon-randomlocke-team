@@ -43,6 +43,30 @@ app.post('/pokemon', async (req, res) => {
     }
     var type1 = await P.getTypeByName(pokemon.types[0].type.name)
     var type2 = pokemon.types.length == 2 ? await P.getTypeByName(pokemon.types[1].type.name) : "";
+    var debilidades = getDebilidades(type1, type2)
+    var evolution_chain = await P.getEvolutionChainById(especie.evolution_chain.url.split("/")[especie.evolution_chain.url.split("/").length - 2])
+    var evoluciones = ""
+    evoluciones = cargarEvoluciones(evolution_chain.chain, evoluciones)
+    evoluciones = evoluciones.substring(0, evoluciones.length - 3).split(pokemon.name).join(`<b>${pokemon.name}</b>`)
+    var texto = await crearTexto(debilidades)
+    res.send(`
+        <table class="mt-3">
+        <tr><td colspan="2">${imagen}</td></tr>
+        <tr><td colspan="2">${evoluciones}</td></tr>
+        <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
+        <tr><td><b>${type1.names[5].name.toUpperCase()}</b></td><td><b>${type2 != "" ? type2.names[5].name.toUpperCase() : ""}</b></td></tr>
+        <tr><td colspan="2"><b>Relación de daño</b></td></tr>
+        <tr><td>x0</td><td>${texto["0"]}</td></tr>
+        <tr><td>x1/4</td><td>${texto["1/4"]}</td></tr>
+        <tr><td>x1/2</td><td>${texto["1/2"]}</td></tr>
+        <tr><td>x1</td><td>${texto["1"]}</td></tr>
+        <tr><td>x2</td><td>${texto["2"]}</td></tr>
+        <tr><td>x4</td><td>${texto["4"]}</td></tr>
+        </table>
+        `)
+})
+
+function getDebilidades(type1, type2) {
     var tiposJSON = {
         normal: 1,
         water: 1,
@@ -67,26 +91,8 @@ app.post('/pokemon', async (req, res) => {
     if (type2 != "") {
         recorrerDebilidades(debilidades, type2)
     }
-    var evolution_chain = await P.getEvolutionChainById(especie.evolution_chain.url.split("/")[especie.evolution_chain.url.split("/").length - 2])
-    var evoluciones = ""
-    evoluciones = cargarEvoluciones(evolution_chain.chain, evoluciones)
-    evoluciones = evoluciones.substring(0, evoluciones.length - 3).split(pokemon.name).join(`<b>${pokemon.name}</b>`)
-    var texto = await crearTexto(debilidades)
-    res.send(`
-        <table class="mt-3">
-        <tr><td colspan="2">${imagen}</td></tr>
-        <tr><td colspan="2">${evoluciones}</td></tr>
-        <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
-        <tr><td><b>${type1.names[5].name.toUpperCase()}</b></td><td><b>${type2 != "" ? type2.names[5].name.toUpperCase() : ""}</b></td></tr>
-        <tr><td>0</td><td>${texto["0"]}</td></tr>
-        <tr><td>1/4</td><td>${texto["1/4"]}</td></tr>
-        <tr><td>1/2</td><td>${texto["1/2"]}</td></tr>
-        <tr><td>1</td><td>${texto["1"]}</td></tr>
-        <tr><td>2</td><td>${texto["2"]}</td></tr>
-        <tr><td>4</td><td>${texto["4"]}</td></tr>
-        </table>
-        `)
-})
+    return debilidades
+}
 
 function cargarEvoluciones(pokemon, evoluciones) {
     evoluciones += `${pokemon.species.name} ->`
