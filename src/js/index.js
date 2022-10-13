@@ -1,7 +1,7 @@
 $('#nombrePokemon').keyup(delay(function (e) {
     var nombre = $(this)[0].value
     if (nombre) {
-        nombre = nombre.toLowerCase()
+        nombre = nombre.toLowerCase().trimLeft().trimRight()
         $("#imagen")[0].innerHTML = "<b>Cargando...</b>"
         $.post("/pokemon", { nombre: nombre }, function (result) {
             $("#imagen")[0].innerHTML = result
