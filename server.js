@@ -50,7 +50,7 @@ app.post('/pokemon', async (req, res) => {
     evoluciones = evoluciones.substring(0, evoluciones.length - 3).split(pokemon.name).join(`<b>${pokemon.name}</b>`)
     var texto = await crearTexto(debilidades)
     res.send(`
-        <table class="mt-3">
+        <table class="mt-3 col-10">
         <tr><td colspan="2">${imagen}</td></tr>
         <tr><td colspan="2">${evoluciones}</td></tr>
         <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
