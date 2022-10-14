@@ -135,6 +135,7 @@ function getDebilidades(type1, type2) {
         water: 1,
         grass: 1,
         electric: 1,
+        fire: 1,
         ice: 1,
         fighting: 1,
         poison: 1,
