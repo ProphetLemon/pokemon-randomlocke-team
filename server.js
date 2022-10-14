@@ -109,20 +109,20 @@ app.post('/pokemon', async (req, res) => {
     myChart.setBackgroundColor("#ffffff00")
     const url = await myChart.getShortUrl();
     res.send(`
-        <table class="mt-3 col-10">
-        <tr><td colspan="2">${imagen}</td></tr>
-        <tr><td colspan="2">${evoluciones}</td></tr>
-        <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
-        <tr><td colspan="2"><b>TIPOS</b></td></tr>
-        <tr><td><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td>${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
-        <tr><td colspan="2"><b>Relación de daño</b></td></tr>
-        <tr><td><img src="/img/nulo.png" /></td><td>${texto["0"]}</td></tr>
-        <tr><td><img src="/img/cuarto.png" /></td><td>${texto["1/4"]}</td></tr>
-        <tr><td><img src="/img/medio.png" /></td><td>${texto["1/2"]}</td></tr>
-        <tr><td><img src="/img/x1.png" /></td><td>${texto["1"]}</td></tr>
-        <tr><td><img src="/img/x2.png" /></td><td>${texto["2"]}</td></tr>
-        <tr><td><img src="/img/x4.png" /></td><td>${texto["4"]}</td></tr>
-        <tr><td colspan="2"><img id="grafico" src="${url}" /></td></tr>
+        <table class="rounded-top mt-3 mb-3 col-10">
+        <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}</td></tr>
+        <tr><td class="border border-secondary" colspan="2">${evoluciones}</td></tr>
+        <tr><td class="border border-secondary">${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td class="border border-secondary">${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
+        <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
+        <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
+        <tr><td class="border border-secondary" colspan="2"><b>RELACIÓN DE DAÑO</b></td></tr>
+        <tr><td class="border border-secondary"><img src="/img/nulo.png" /></td><td class="border border-secondary">${texto["0"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/cuarto.png" /></td><td class="border border-secondary">${texto["1/4"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/medio.png" /></td><td class="border border-secondary">${texto["1/2"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/x1.png" /></td><td class="border border-secondary">${texto["1"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/x2.png" /></td><td class="border border-secondary">${texto["2"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/x4.png" /></td><td class="border border-secondary">${texto["4"]}</td></tr>
+        <tr><td class="border border-secondary" colspan="2"><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
 })

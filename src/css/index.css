@@ -16,12 +16,17 @@ img {
 
 table {
     margin: auto;
-    background-color: #6bc5d1;
     max-width: 600px;
+    --bs-border-radius: 75px;
+    --bs-border-width: 1px;
+    border-collapse: separate;
+    border-spacing: inherit;
 }
 
+
 td {
-    border: solid 2px;
+    /*  border: solid 2px;*/
+    background-color: #6bc5d1;
     width: 50%;
 }
 
