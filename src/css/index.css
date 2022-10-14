@@ -7,7 +7,7 @@ body {
 }
 
 #grafico {
-    width: 100%;
+    width: max-content;
 }
 
 img {

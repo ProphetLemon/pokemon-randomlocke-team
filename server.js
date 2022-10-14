@@ -123,7 +123,7 @@ app.post('/pokemon', async (req, res) => {
         <tr><td class="border border-secondary"><img src="/img/x1.png" /></td><td class="border border-secondary">${texto["1"]}</td></tr>
         <tr><td class="border border-secondary"><img src="/img/x2.png" /></td><td class="border border-secondary">${texto["2"]}</td></tr>
         <tr><td class="border border-secondary"><img src="/img/x4.png" /></td><td class="border border-secondary">${texto["4"]}</td></tr>
-        <tr><td class="border border-secondary" colspan="2"><b>STATS BASE:</b> ${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}<br><img id="grafico" src="${url}" /></td></tr>
+        <tr><td class="border rounded-bottom border-secondary" colspan="2"><b>STATS BASE:</b> ${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}<br><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
 })
