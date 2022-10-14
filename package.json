@@ -26,6 +26,7 @@
     "mongoose": "^6.6.5",
     "nodemon": "^2.0.20",
     "path": "^0.12.7",
-    "pokeapi-js-wrapper": "^1.2.2"
+    "pokeapi-js-wrapper": "^1.2.2",
+    "quickchart-js": "^3.1.0"
   }
 }

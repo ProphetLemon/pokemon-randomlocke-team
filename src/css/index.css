@@ -6,13 +6,17 @@ body {
     width: 35%;
 }
 
+#grafico {
+    width: 100%;
+}
+
 img {
     width: 15%;
 }
 
 table {
     margin: auto;
-    background-color: #68d9a5;
+    background-color: #6bc5d1;
     max-width: 600px;
 }
 

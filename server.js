@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'src')));
 //https://github.com/PokeAPI/pokeapi-js-wrapper
 const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex({ cache: false })
-
+const QuickChart = require('quickchart-js');
 app.get('/', (req, res) => {
     res.render('index');
 });
@@ -49,6 +49,65 @@ app.post('/pokemon', async (req, res) => {
     evoluciones = cargarEvoluciones(evolution_chain.chain, evoluciones)
     evoluciones = evoluciones.substring(0, evoluciones.length - 3).split(pokemon.name).join(`<b>${pokemon.name}</b>`)
     var texto = await crearTexto(debilidades)
+    const myChart = new QuickChart();
+    myChart.setConfig({
+        type: 'horizontalBar',
+        data: {
+            labels: ['HP', 'ATQ', 'DEF', 'AT.ESP', 'DEF.ESP', 'VEL'],
+            datasets: [{
+                label: 'Stats',
+                data: [
+                    pokemon.stats[0].base_stat,
+                    pokemon.stats[1].base_stat,
+                    pokemon.stats[2].base_stat,
+                    pokemon.stats[3].base_stat,
+                    pokemon.stats[4].base_stat,
+                    pokemon.stats[5].base_stat
+                ],
+                backgroundColor: [
+                    "rgb(83,205,91)",
+                    "rgb(246,222,82)",
+                    "rgb(237,127,15)",
+                    "rgb(86,176,241)",
+                    "rgb(173,98,246)",
+                    "rgb(240,106,206)"
+                ]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        max: 255,
+                        stepSize: 85,
+                        fontColor: '#000000'
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        fontColor: '#000000'
+                    }
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (val) => {
+                        return val.toLocaleString();
+                    },
+                    color: (context) => '#000',
+                    anchor: (context) => context.dataset.data[context.dataIndex] > 15 ? 'center' : 'end',
+                    align: (context) => context.dataset.data[context.dataIndex] > 15 ? 'center' : 'right',
+                }
+            }
+        }
+    });
+    myChart.setFormat("png")
+    myChart.setBackgroundColor("#ffffff00")
+    const url = await myChart.getShortUrl();
     res.send(`
         <table class="mt-3 col-10">
         <tr><td colspan="2">${imagen}</td></tr>
@@ -57,12 +116,13 @@ app.post('/pokemon', async (req, res) => {
         <tr><td colspan="2"><b>TIPOS</b></td></tr>
         <tr><td><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td>${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td colspan="2"><b>Relación de daño</b></td></tr>
-        <tr><td>x0</td><td>${texto["0"]}</td></tr>
-        <tr><td>x1/4</td><td>${texto["1/4"]}</td></tr>
-        <tr><td>x1/2</td><td>${texto["1/2"]}</td></tr>
-        <tr><td>x1</td><td>${texto["1"]}</td></tr>
-        <tr><td>x2</td><td>${texto["2"]}</td></tr>
-        <tr><td>x4</td><td>${texto["4"]}</td></tr>
+        <tr><td><img src="/img/nulo.png" /></td><td>${texto["0"]}</td></tr>
+        <tr><td><img src="/img/cuarto.png" /></td><td>${texto["1/4"]}</td></tr>
+        <tr><td><img src="/img/medio.png" /></td><td>${texto["1/2"]}</td></tr>
+        <tr><td><img src="/img/x1.png" /></td><td>${texto["1"]}</td></tr>
+        <tr><td><img src="/img/x2.png" /></td><td>${texto["2"]}</td></tr>
+        <tr><td><img src="/img/x4.png" /></td><td>${texto["4"]}</td></tr>
+        <tr><td colspan="2"><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
 })
