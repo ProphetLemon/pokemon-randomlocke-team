@@ -35,7 +35,7 @@ app.post('/pokemon', async (req, res) => {
             return res.send("<b>No encontré el pokemon</b>")
         }
     }
-    var imagen = `<img src="${pokemon.sprites.front_default}" />`
+    var imagen = `<img id="pokemonIcon" src="${pokemon.sprites.front_default}" />`
     var legendario = especie.is_legendary
     var base_stats = 0
     for (let stat of pokemon.stats) {
@@ -55,7 +55,7 @@ app.post('/pokemon', async (req, res) => {
         <tr><td colspan="2">${evoluciones}</td></tr>
         <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
         <tr><td colspan="2"><b>TIPOS</b></td></tr>
-        <tr><td><b>${getIcon(type1.name)}</b></td><td><b>${type2 != "" ? getIcon(type2.name) : ""}</b></td></tr>
+        <tr><td><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td>${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td colspan="2"><b>Relación de daño</b></td></tr>
         <tr><td>x0</td><td>${texto["0"]}</td></tr>
         <tr><td>x1/4</td><td>${texto["1/4"]}</td></tr>
