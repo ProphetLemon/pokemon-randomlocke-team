@@ -1,5 +1,5 @@
-$('#nombrePokemon').keyup(delay(function (e) {
-    var nombre = $(this)[0].value
+function buscar() {
+    var nombre = $("#nombrePokemon")[0].value
     if (nombre) {
         nombre = nombre.toLowerCase().trimLeft().trimRight()
         $("#imagen")[0].innerHTML = "<b>Cargando...</b>"
@@ -9,7 +9,20 @@ $('#nombrePokemon').keyup(delay(function (e) {
     } else {
         $("#imagen")[0].innerHTML = "<b>Escribe el nombre de un pokemon</b>"
     }
-}, 500));
+}
+
+// Get the input field
+var input = document.getElementById("nombrePokemon");
+
+// Execute a function when the user presses a key on the keyboard
+input.addEventListener("keypress", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        buscar()
+    }
+});
 
 function delay(callback, ms) {
     var timer = 0;
