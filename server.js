@@ -113,7 +113,7 @@ app.post('/pokemon', async (req, res) => {
         <table class="rounded-top mt-3 mb-3 col-10">
         <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}</td></tr>
         <tr><td class="border border-secondary" colspan="2">${evoluciones}</td></tr>
-        <tr><td class="border border-secondary">${legendario ? "<b>ES LEGENDARIO</b>" : mitico ? "<b>ES MÍTICO</b>" : "Es común"}</td><td class="border border-secondary">${pokemon.id}</td></tr>
+        <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">${pokemon.id}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>RELACIÓN DE DAÑO</b></td></tr>
