@@ -54,7 +54,8 @@ app.post('/pokemon', async (req, res) => {
         <tr><td colspan="2">${imagen}</td></tr>
         <tr><td colspan="2">${evoluciones}</td></tr>
         <tr><td>${legendario ? "<b>ES LEGENDARIO</b>" : "No es legendario"}</td><td>${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}</td></tr>
-        <tr><td><b>${type1.names[5].name.toUpperCase()}</b></td><td><b>${type2 != "" ? type2.names[5].name.toUpperCase() : ""}</b></td></tr>
+        <tr><td colspan="2"><b>TIPOS</b></td></tr>
+        <tr><td><b>${getIcon(type1.name)}</b></td><td><b>${type2 != "" ? getIcon(type2.name) : ""}</b></td></tr>
         <tr><td colspan="2"><b>Relación de daño</b></td></tr>
         <tr><td>x0</td><td>${texto["0"]}</td></tr>
         <tr><td>x1/4</td><td>${texto["1/4"]}</td></tr>
@@ -116,8 +117,7 @@ async function crearTexto(debilidades) {
         "4": ""
     }
     for (let [key, value] of debilidades) {
-        key = await P.getTypeByName(key)
-        key = key.names[5].name.toUpperCase()
+        key = getIcon(key)
         switch (value) {
             case 0:
                 json["0"] += `${key} `
@@ -140,6 +140,51 @@ async function crearTexto(debilidades) {
         }
     }
     return json
+}
+
+function getIcon(key) {
+    switch (key) {
+        case 'steel':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/2/2c/Type_Acero.png/" title="Acero"/>`
+        case 'water':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/b/b7/Type_Agua.png/" title="Agua"/>`
+        case 'bug':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/9/91/Type_Bicho.png/" title="Bicho"/>`
+        case 'bug':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/9/91/Type_Bicho.png/" title="Bicho"/>`
+        case 'dragon':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/d/d4/Type_Drag%C3%B3n.png" title="Dragón"/>`
+        case 'electric':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/c/c7/Type_El%C3%A9ctrico.png/" title="Electrico"/>`
+        case 'ghost':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/1/11/Type_Fantasma.png" title="Fantasma"/>`
+        case 'fire':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/3/38/Type_Fuego.png/" title="Fuego"/>`
+        case 'fairy':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/4/49/Type_Hada.png/" title="Hada"/>`
+        case 'ice':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/3/35/Type_Hielo.png/" title="Hielo"/>`
+        case 'fighting':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/6/66/Type_Lucha.png/" title="Lucha"/>`
+        case 'normal':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/2/23/Type_Normal.png/" title="Normal"/>`
+        case 'grass':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/6/60/Type_Planta.png/" title="Planta"/>`
+        case 'psychic':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/7/72/Type_Ps%C3%ADquico.png/" title="Psiquico"/>`
+        case 'rock':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/b/b3/Type_Roca.png/" title="Roca"/>`
+        case 'dark':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/3/39/Type_Siniestro.png/" title="Siniestro"/>`
+        case 'ground':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/4/49/Type_Tierra.png/" title="Tierra"/>`
+        case 'poison':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/f/f1/Type_Veneno.png/" title="Veneno"/>`
+        case 'flying':
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/8/80/Type_Volador.png/" title="Volador"/>`
+        default:
+            return key
+    }
 }
 
 /**
@@ -166,3 +211,5 @@ function rellenarMap(map, damages, relDamage) {
 }
 
 app.listen(process.env.PORT || 5000);
+
+console.log("Encendido")
