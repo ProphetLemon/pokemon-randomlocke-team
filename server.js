@@ -35,7 +35,8 @@ app.post('/pokemon', async (req, res) => {
             return res.send("<b>No encontré el pokemon</b>")
         }
     }
-    var imagen = `<img id="pokemonIcon" src="${pokemon.sprites.front_default}" />`
+    var imagen = `<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />`
+    var shiny = `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />`
     var legendario = especie.is_legendary
     var mitico = especie.is_mythical
     var base_stats = 0
@@ -111,8 +112,8 @@ app.post('/pokemon', async (req, res) => {
     const url = await myChart.getShortUrl();
     res.send(`
         <table class="rounded-top mt-3 mb-3 col-10">
-        <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}</td></tr>
-        <tr><td class="border border-secondary" colspan="2">${evoluciones}</td></tr>
+        <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}${shiny}</td></tr>
+        <tr><td id="evoluciones" class="border border-secondary" colspan="2">${evoluciones}</td></tr>
         <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">${pokemon.id}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
@@ -157,7 +158,7 @@ function getDebilidades(type1, type2) {
 }
 
 function cargarEvoluciones(pokemon, evoluciones) {
-    evoluciones += `${pokemon.species.name} ->`
+    evoluciones += `<span class="evolucion">${pokemon.species.name}</span> > `
     if (pokemon.evolves_to.length > 0) {
         return cargarEvoluciones(pokemon.evolves_to[0], evoluciones)
     }

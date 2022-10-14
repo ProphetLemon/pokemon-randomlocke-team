@@ -2,12 +2,20 @@ body {
     background-image: url(https://c4.wallpaperflare.com/wallpaper/807/743/680/pokemon-tile-cartoon-pattern-hd-wallpaper-preview.jpg);
 }
 
-#pokemonIcon {
+.pokemonIcon {
     width: 35%;
 }
 
 #grafico {
     width: 100%;
+}
+
+.evolucion {
+    color: blue;
+}
+
+.evolucion:hover {
+    cursor: pointer;
 }
 
 img {
