@@ -22,11 +22,13 @@ $("#nombrePokemon").change(function () {
 
 $('#nombrePokemon').keyup(delay(function (e) {
     var nombre = $(this)[0].value
-    if (nombre) {
+    if (nombre && nombre.trim() != "") {
         nombre = nombre.toLowerCase().trimLeft().trimRight()
         $.post("/buscar", { nombre: nombre }, function (result) {
             $("#listaPokemon")[0].innerHTML = result
         })
+    } else {
+        $("#listaPokemon")[0].innerHTML = ''
     }
 }, 500));
 

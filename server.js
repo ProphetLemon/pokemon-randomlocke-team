@@ -181,7 +181,7 @@ async function cargarEvoluciones(especie, name) {
         let evolution = pokemonEvolutionChain.chain.evolves_to[i]
         segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span>/`
     }
-    segundaEvolucion = segundaEvolucion == "" ? "" : " -> " + segundaEvolucion.substring(0, segundaEvolucion.length - 1)
+    segundaEvolucion = segundaEvolucion == "" ? "" : " > " + segundaEvolucion.substring(0, segundaEvolucion.length - 1)
     var terceraEvolucion = ""
     for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
         let evolution = pokemonEvolutionChain.chain.evolves_to[i]
@@ -191,7 +191,7 @@ async function cargarEvoluciones(especie, name) {
             }
         }
     }
-    terceraEvolucion = terceraEvolucion == "" ? "" : " -> " + terceraEvolucion.substring(0, terceraEvolucion.length - 1)
+    terceraEvolucion = terceraEvolucion == "" ? "" : ` > ${terceraEvolucion.substring(0, terceraEvolucion.length - 8)}</span>`
     var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
     evoluciones = evoluciones.split(name).join(`<b>${name}</b>`)
     return evoluciones
