@@ -63,10 +63,7 @@ app.post('/pokemon', async (req, res) => {
     var type1 = await P.getTypeByName(pokemon.types[0].type.name)
     var type2 = pokemon.types.length == 2 ? await P.getTypeByName(pokemon.types[1].type.name) : "";
     var debilidades = getDebilidades(type1, type2)
-    var evolution_chain = await P.getEvolutionChainById(especie.evolution_chain.url.split("/")[especie.evolution_chain.url.split("/").length - 2])
-    var evoluciones = ""
-    evoluciones = cargarEvoluciones(evolution_chain.chain, evoluciones)
-    evoluciones = evoluciones.substring(0, evoluciones.length - 3).split(pokemon.name).join(`<b>${pokemon.name}</b>`)
+    var evoluciones = await cargarEvoluciones(especie, pokemon.name)
     var texto = await crearTexto(debilidades)
     const myChart = new QuickChart();
     myChart.setConfig({
@@ -175,11 +172,28 @@ function getDebilidades(type1, type2) {
     return debilidades
 }
 
-function cargarEvoluciones(pokemon, evoluciones) {
-    evoluciones += `<span class="evolucion">${pokemon.species.name}</span> > `
-    if (pokemon.evolves_to.length > 0) {
-        return cargarEvoluciones(pokemon.evolves_to[0], evoluciones)
+async function cargarEvoluciones(especie, name) {
+    var pokemonSpecies = especie
+    var pokemonEvolutionChain = await P.resource(pokemonSpecies.evolution_chain.url)
+    var primeraEvolucion = `<span class="evolucion">${pokemonEvolutionChain.chain.species.name}</span>`
+    var segundaEvolucion = ""
+    for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
+        let evolution = pokemonEvolutionChain.chain.evolves_to[i]
+        segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span>/`
     }
+    segundaEvolucion = segundaEvolucion == "" ? "" : " -> " + segundaEvolucion.substring(0, segundaEvolucion.length - 1)
+    var terceraEvolucion = ""
+    for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
+        let evolution = pokemonEvolutionChain.chain.evolves_to[i]
+        if (evolution.evolves_to.length > 0) {
+            for (let j = 0; j < evolution.evolves_to.length; j++) {
+                terceraEvolucion += `<span class="evolucion">${evolution.evolves_to[j].species.name}/</span>`
+            }
+        }
+    }
+    terceraEvolucion = terceraEvolucion == "" ? "" : " -> " + terceraEvolucion.substring(0, terceraEvolucion.length - 1)
+    var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
+    evoluciones = evoluciones.split(name).join(`<b>${name}</b>`)
     return evoluciones
 }
 
