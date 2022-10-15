@@ -13,8 +13,11 @@
 
 <body>
     <div class="container mt-5">
-        <input id="nombrePokemon" type="text" />
+        <input id="nombrePokemon" list="listaPokemon" type="text" />
         <input type="button" onclick="buscar()" value="Buscar" />
+        <datalist id="listaPokemon">
+
+        </datalist>
         <div id="imagen">
             <b>Escribe el nombre de un pokemon</b>
         </div>

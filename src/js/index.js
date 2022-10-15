@@ -15,6 +15,32 @@ function buscar() {
     }
 }
 
+$("#nombrePokemon").change(function () {
+    $(this).blur()
+    buscar()
+})
+
+$('#nombrePokemon').keyup(delay(function (e) {
+    var nombre = $(this)[0].value
+    if (nombre) {
+        nombre = nombre.toLowerCase().trimLeft().trimRight()
+        $.post("/buscar", { nombre: nombre }, function (result) {
+            $("#listaPokemon")[0].innerHTML = result
+        })
+    }
+}, 500));
+
+function delay(callback, ms) {
+    var timer = 0;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            callback.apply(context, args);
+        }, ms || 0);
+    };
+}
+
 var input = document.getElementById("nombrePokemon");
 
 input.addEventListener("keypress", function (event) {

@@ -11,9 +11,23 @@ app.use(express.static(path.join(__dirname, 'src')));
 const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex({ cache: false })
 const QuickChart = require('quickchart-js');
+const pokemonJson = require('./src/json/pokemon-json')
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.post('/buscar', (req, res) => {
+    var nombre = req.body.nombre
+    var resultados = []
+    for (let pokemon of pokemonJson) {
+        if (pokemon.name.includes(nombre)) {
+            resultados.push(`<option value="${pokemon.name}">`)
+            if (resultados.length == 5) break;
+        }
+    }
+    res.send(resultados.join(""))
+})
+
 
 app.post('/pokemon', async (req, res) => {
     var nombre = req.body.nombre
