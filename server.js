@@ -22,7 +22,7 @@ app.post('/buscar', (req, res) => {
     for (let pokemon of pokemonJson) {
         if (pokemon.name.toLowerCase().startsWith(nombre)) {
             resultados.push(`<option value="${pokemon.name}">`)
-            if (resultados.length == 5) break;
+            if (resultados.length == 10) break;
         }
     }
     res.send(resultados.join(""))
