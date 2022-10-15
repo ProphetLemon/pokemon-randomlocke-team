@@ -173,25 +173,37 @@ function getDebilidades(type1, type2) {
 }
 
 async function cargarEvoluciones(especie, name) {
+    function ordenAlfabetico(evolucionstring) {
+        if (evolucionstring != "") {
+            evolucionstring.substring(0, evolucionstring.length - 2)
+            evolucionstring = evolucionstring.split(" / ")
+            evolucionstring.sort(function (a, b) {
+                return a > b ? 1 : a < b ? -1 : 0
+            })
+            evolucionstring = ` > ${evolucionstring.join(" / ")}`
+            evolucionstring = ` >${evolucionstring.substring(5, evolucionstring.length)}`
+        }
+        return evolucionstring
+    }
     var pokemonSpecies = especie
     var pokemonEvolutionChain = await P.resource(pokemonSpecies.evolution_chain.url)
     var primeraEvolucion = `<span class="evolucion">${pokemonEvolutionChain.chain.species.name}</span>`
     var segundaEvolucion = ""
     for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
         let evolution = pokemonEvolutionChain.chain.evolves_to[i]
-        segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span>/`
+        segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span> / `
     }
-    segundaEvolucion = segundaEvolucion == "" ? "" : " > " + segundaEvolucion.substring(0, segundaEvolucion.length - 1)
+    segundaEvolucion = ordenAlfabetico(segundaEvolucion)
     var terceraEvolucion = ""
     for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
         let evolution = pokemonEvolutionChain.chain.evolves_to[i]
         if (evolution.evolves_to.length > 0) {
             for (let j = 0; j < evolution.evolves_to.length; j++) {
-                terceraEvolucion += `<span class="evolucion">${evolution.evolves_to[j].species.name}/</span>`
+                terceraEvolucion += `<span class="evolucion">${evolution.evolves_to[j].species.name}</span> / `
             }
         }
     }
-    terceraEvolucion = terceraEvolucion == "" ? "" : ` > ${terceraEvolucion.substring(0, terceraEvolucion.length - 8)}</span>`
+    terceraEvolucion = ordenAlfabetico(terceraEvolucion)
     var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
     evoluciones = evoluciones.split(name).join(`<b>${name}</b>`)
     return evoluciones
