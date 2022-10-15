@@ -25,6 +25,9 @@ app.post('/buscar', (req, res) => {
             if (resultados.length == 10) break;
         }
     }
+    resultados.sort(function (a, b) {
+        return a > b ? 1 : a < b ? -1 : 0
+    })
     res.send(resultados.join(""))
 })
 
