@@ -46,21 +46,30 @@ function delay(callback, ms) {
     };
 }
 
-$("#tablatipos td").click(function (e) {
-    if ($(this)[0].id != '') return
+$("#tablatipos .clickable").click(function (e) {
     if ($("#tipo1")[0].innerHTML == '') {
-        $("#tipo1")[0].innerHTML = `<b>TIPO 1</b><br>${$(this)[0].innerHTML}`
+        $("#tipo1")[0].innerHTML = `${$(this)[0].innerHTML}`
     } else if ($("#tipo2")[0].innerHTML == '') {
-        if ($("#tipo1")[0].innerHTML == `<b>TIPO 1</b><br>${$(this)[0].innerHTML}`) {
+        if ($("#tipo1")[0].innerHTML == `${$(this)[0].innerHTML}`) {
             return
         }
-        $("#tipo2")[0].innerHTML = `<b>TIPO 2</b><br>${$(this)[0].innerHTML}`
+        $("#tipo2")[0].innerHTML = `${$(this)[0].innerHTML}`
     } else {
         return
     }
-    $("#debilidades")[0].innerHTML = `<b>CARGANDO...</b>`
     calcularDebilidades()
 })
+
+function rellenarCeldas(texto) {
+    $("#critico")[0].innerHTML = texto
+    $("#efectivo")[0].innerHTML = texto
+    $("#neutro")[0].innerHTML = texto
+    $("#ineficaz")[0].innerHTML = texto
+    $("#resistente")[0].innerHTML = texto
+    $("#invulnerable")[0].innerHTML = texto
+}
+
+var ajaxActual = ""
 
 function calcularDebilidades() {
     var tipo1 = ""
@@ -72,29 +81,46 @@ function calcularDebilidades() {
         tipo2 = $("#tipo2 img").attr("title")
     }
     if (tipo1 == "" && tipo2 == "") {
-        $("#debilidades")[0].innerHTML = ``
+        rellenarCeldas('')
     } else {
-        $.post('/debilidades', { tipo1: tipo1, tipo2: tipo2 }, function (result) {
-            $("#debilidades")[0].innerHTML = `
-           ${result["4"] ? `<b>x4</b>${result["4"]}<br>` : ``}
-           ${result["2"] ? `<b>x2</b>${result["2"]}<br>` : ``}
-           ${result["1"] ? `<b>x1</b>${result["1"]}<br>` : ``}
-           ${result["1/2"] ? `<b>x1/2</b>${result["1/2"]}<br>` : ``}
-           ${result["1/4"] ? `<b>x1/4</b>${result["1/4"]}<br>` : ``}
-           ${result["0"] ? `<b>x0</b>${result["0"]}<br>` : ``}
-            `
+        rellenarCeldas('<b>Cargando...</b>')
+        if (ajaxActual != "") {
+            ajaxActual.abort()
+        }
+        ajaxActual = $.post('/debilidades', { tipo1: tipo1, tipo2: tipo2 }, function (result) {
+            ajaxActual = ""
+            rellenarCeldas('')
+            if (result["4"]) {
+                $("#critico")[0].innerHTML = result["4"]
+            }
+            if (result["2"]) {
+                $("#efectivo")[0].innerHTML = result["2"]
+            }
+            if (result["1"]) {
+                $("#neutro")[0].innerHTML = result["1"]
+            }
+            if (result["1/2"]) {
+                $("#ineficaz")[0].innerHTML = result["1/2"]
+            }
+            if (result["1/4"]) {
+                $("#resistente")[0].innerHTML = result["1/4"]
+            }
+            if (result["0"]) {
+                $("#invulnerable")[0].innerHTML = result["0"]
+            }
         })
     }
-
 }
+
+
 
 $("#tipo1,#tipo2").click(function (e) {
     $(this)[0].innerHTML = ''
     if ($(this)[0].id == "tipo1" && $("#tipo2")[0].innerHTML != '') {
-        $(this)[0].innerHTML = $("#tipo2")[0].innerHTML.split("TIPO 2").join("TIPO 1")
+        $(this)[0].innerHTML = $("#tipo2")[0].innerHTML
         $("#tipo2")[0].innerHTML = ''
     }
-    $("#debilidades")[0].innerHTML = `<b>CARGANDO...</b>`
+    //$("#debilidades")[0].innerHTML = `<b>CARGANDO...</b>`
     calcularDebilidades()
 })
 
