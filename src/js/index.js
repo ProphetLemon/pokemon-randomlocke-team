@@ -115,6 +115,7 @@ function calcularDebilidades() {
 
 
 $("#tipo1,#tipo2").click(function (e) {
+    if ($(this)[0].innerHTML == '') return
     $(this)[0].innerHTML = ''
     if ($(this)[0].id == "tipo1" && $("#tipo2")[0].innerHTML != '') {
         $(this)[0].innerHTML = $("#tipo2")[0].innerHTML
