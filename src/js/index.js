@@ -121,7 +121,6 @@ $("#tipo1,#tipo2").click(function (e) {
         $(this)[0].innerHTML = $("#tipo2")[0].innerHTML
         $("#tipo2")[0].innerHTML = ''
     }
-    //$("#debilidades")[0].innerHTML = `<b>CARGANDO...</b>`
     calcularDebilidades()
 })
 

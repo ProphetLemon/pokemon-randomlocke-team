@@ -69,7 +69,7 @@ app.post('/pokemon', async (req, res) => {
     myChart.setConfig({
         type: 'horizontalBar',
         data: {
-            labels: ['HP', 'ATQ', 'DEF', 'AT.ESP', 'DEF.ESP', 'VEL'],
+            labels: ['PS', 'ATQ', 'DEF', 'AT. ESP', 'DEF. ESP', 'VEL'],
             datasets: [{
                 label: 'Stats',
                 data: [
@@ -137,8 +137,7 @@ app.post('/pokemon', async (req, res) => {
         <tr><td class="border border-secondary"><img src="/img/x1.png" /></td><td class="border border-secondary">${texto["1"]}</td></tr>        
         <tr><td class="border border-secondary"><img src="/img/medio.png" /></td><td class="border border-secondary">${texto["1/2"]}</td></tr>        
         <tr><td class="border border-secondary"><img src="/img/cuarto.png" /></td><td class="border border-secondary">${texto["1/4"]}</td></tr>
-        <tr><td class="border border-secondary"><img src="/img/nulo.png" /></td><td class="border border-secondary">${texto["0"]}</td></tr>
-        
+        <tr><td class="border border-secondary"><img src="/img/nulo.png" /></td><td class="border border-secondary">${texto["0"]}</td></tr>        
         <tr><td class="border border-secondary" colspan="2"><b>STATS BASE:</b> ${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}<br><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
