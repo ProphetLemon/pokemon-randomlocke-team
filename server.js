@@ -132,12 +132,13 @@ app.post('/pokemon', async (req, res) => {
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>RELACIÓN DE DAÑO</b></td></tr>
-        <tr><td class="border border-secondary"><img src="/img/nulo.png" /></td><td class="border border-secondary">${texto["0"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/x4.png" /></td><td class="border border-secondary">${texto["4"]}</td></tr>        
+        <tr><td class="border border-secondary"><img src="/img/x2.png" /></td><td class="border border-secondary">${texto["2"]}</td></tr>        
+        <tr><td class="border border-secondary"><img src="/img/x1.png" /></td><td class="border border-secondary">${texto["1"]}</td></tr>        
+        <tr><td class="border border-secondary"><img src="/img/medio.png" /></td><td class="border border-secondary">${texto["1/2"]}</td></tr>        
         <tr><td class="border border-secondary"><img src="/img/cuarto.png" /></td><td class="border border-secondary">${texto["1/4"]}</td></tr>
-        <tr><td class="border border-secondary"><img src="/img/medio.png" /></td><td class="border border-secondary">${texto["1/2"]}</td></tr>
-        <tr><td class="border border-secondary"><img src="/img/x1.png" /></td><td class="border border-secondary">${texto["1"]}</td></tr>
-        <tr><td class="border border-secondary"><img src="/img/x2.png" /></td><td class="border border-secondary">${texto["2"]}</td></tr>
-        <tr><td class="border border-secondary"><img src="/img/x4.png" /></td><td class="border border-secondary">${texto["4"]}</td></tr>
+        <tr><td class="border border-secondary"><img src="/img/nulo.png" /></td><td class="border border-secondary">${texto["0"]}</td></tr>
+        
         <tr><td class="border border-secondary" colspan="2"><b>STATS BASE:</b> ${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}<br><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
