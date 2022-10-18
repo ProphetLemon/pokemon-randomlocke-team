@@ -18,21 +18,51 @@ body {
     font-size: small;
 }
 
+#tablatipos img,
+#debilidades img {
+    width: 100%;
+    max-width: 50px;
+}
+
+#tablatipos td:hover {
+    background-color: rgba(0, 0, 0, 0.116);
+    cursor: pointer;
+}
+
 .cuadrado {
     background-color: rgb(237, 222, 95);
     max-width: fit-content;
     margin: auto;
 }
 
+#tipo1 img,
+#tipo2 img {
+    max-width: 100px;
+}
+
 .evolucion:hover {
     cursor: pointer;
 }
+
+#debilidades {
+    text-align: left;
+}
+
+/*#debilidades img {
+    width: 7%;
+    min-width: 40px;
+}*/
 
 img {
     width: 15%;
 }
 
-table {
+#debilidades:hover {
+    background-color: #dddbc200 !important;
+    cursor: default !important;
+}
+
+#resultado {
     margin: auto;
     max-width: 600px;
     --bs-border-radius: 75px;
@@ -41,9 +71,16 @@ table {
     border-spacing: inherit;
 }
 
+#tablatipos {
+    max-width: 800px;
+    margin: auto;
+}
 
-td {
+table {
     background-color: #dddbc2;
+}
+
+#resultado td {
     width: 50%;
 }
 

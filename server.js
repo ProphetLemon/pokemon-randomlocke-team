@@ -64,7 +64,7 @@ app.post('/pokemon', async (req, res) => {
     var type2 = pokemon.types.length == 2 ? await P.getTypeByName(pokemon.types[1].type.name) : "";
     var debilidades = getDebilidades(type1, type2)
     var evoluciones = await cargarEvoluciones(especie, pokemon.name)
-    var texto = await crearTexto(debilidades)
+    var texto = crearTexto(debilidades)
     const myChart = new QuickChart();
     myChart.setConfig({
         type: 'horizontalBar',
@@ -125,7 +125,7 @@ app.post('/pokemon', async (req, res) => {
     myChart.setBackgroundColor("#ffffff00")
     const url = await myChart.getShortUrl();
     res.send(`
-        <table class="rounded-top mt-3 mb-3 col-10">
+        <table id="resultado" class="rounded-top mt-3 mb-3 col-10">
         <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}${shiny}</td></tr>
         <tr><td id="evoluciones" class="border border-secondary" colspan="2">${evoluciones}</td></tr>
         <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">${especie.pokedex_numbers[0].entry_number}</td></tr>
@@ -141,6 +141,14 @@ app.post('/pokemon', async (req, res) => {
         <tr><td class="border border-secondary" colspan="2"><b>STATS BASE:</b> ${base_stats >= 500 ? "<b>" + base_stats + "</b>" : base_stats}<br><img id="grafico" src="${url}" /></td></tr>
         </table>
         `)
+})
+
+app.post('/debilidades', async (req, res) => {
+    var type1 = req.body.tipo1 ? await P.getTypeByName(req.body.tipo1) : await P.getTypeByName(req.body.tipo2);
+    var type2 = req.body.tipo2 ? await P.getTypeByName(req.body.tipo2) : "";
+    var debilidades = getDebilidades(type1, type2)
+    var texto = crearTexto(debilidades)
+    res.send(texto)
 })
 
 function getDebilidades(type1, type2) {
@@ -205,7 +213,7 @@ async function cargarEvoluciones(especie, name) {
     }
     terceraEvolucion = ordenAlfabetico(terceraEvolucion)
     var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
-    evoluciones = evoluciones.split(name).join(`<b>${name}</b>`)
+    evoluciones = evoluciones.split(`>${name}<`).join(`><b>${name}</b><`)
     return evoluciones
 }
 
@@ -254,8 +262,6 @@ function getIcon(key) {
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/2/2c/Type_Acero.png/" title="Acero"/>`
         case 'water':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/b/b7/Type_Agua.png/" title="Agua"/>`
-        case 'bug':
-            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/9/91/Type_Bicho.png/" title="Bicho"/>`
         case 'bug':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/9/91/Type_Bicho.png/" title="Bicho"/>`
         case 'dragon':
