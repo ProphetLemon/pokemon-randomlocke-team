@@ -24,8 +24,8 @@ body {
     max-width: 50px;
 }
 
-#tipo1,
-#tipo2,
+#tipo1:hover,
+#tipo2:hover,
 .clickable:hover {
     background-color: rgba(0, 0, 0, 0.116);
     cursor: pointer;
