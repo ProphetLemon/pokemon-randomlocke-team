@@ -18,10 +18,19 @@ body {
     font-size: small;
 }
 
-#tablatipos img,
-#debilidades img {
+#tablatipos img {
     width: 100%;
     max-width: 50px;
+}
+
+#critico img,
+#efectivo img,
+#neutro img,
+#ineficaz img,
+#resistente img,
+#invulnerable img,
+.debilidades {
+    max-width: 40px !important;
 }
 
 #tipo1:hover,
@@ -39,23 +48,13 @@ body {
 
 #tipo1 img,
 #tipo2 img {
-    max-width: 100px;
+    max-width: 95px;
 }
-
-
 
 .evolucion:hover {
     cursor: pointer;
 }
 
-#debilidades {
-    text-align: left;
-}
-
-/*#debilidades img {
-    width: 7%;
-    min-width: 40px;
-}*/
 
 img {
     width: 15%;
