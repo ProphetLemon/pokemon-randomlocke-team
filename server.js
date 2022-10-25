@@ -12,6 +12,9 @@ const Pokedex = require("pokeapi-js-wrapper");
 const P = new Pokedex.Pokedex({ cache: false })
 const QuickChart = require('quickchart-js');
 const pokemonJson = require('./src/json/pokemon-json')
+const tabletypesRouter = require("./routers/tabletypesRouter")
+
+app.use('/tabletypes', tabletypesRouter)
 app.get('/', (req, res) => {
     res.render('index');
 });
@@ -143,15 +146,7 @@ app.post('/pokemon', async (req, res) => {
         `)
 })
 
-app.post('/debilidades', async (req, res) => {
-    var type1 = req.body.tipo1 ? await P.getTypeByName(req.body.tipo1) : await P.getTypeByName(req.body.tipo2);
-    var type2 = req.body.tipo2 ? await P.getTypeByName(req.body.tipo2) : "";
-    var debilidades = getDebilidades(type1, type2)
-    var texto = crearTexto(debilidades)
-    res.send(texto)
-})
-
-function getDebilidades(type1, type2) {
+global.getDebilidades = function (type1, type2) {
     var tiposJSON = {
         normal: 1,
         water: 1,
@@ -221,7 +216,7 @@ async function cargarEvoluciones(especie, name) {
  * 
  * @param {Map<String,Number>} debilidades 
  */
-function crearTexto(debilidades) {
+global.crearTexto = function (debilidades) {
     var json = {
         "0": "",
         "1/4": "",

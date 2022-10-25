@@ -1,0 +1,21 @@
+body {
+    background-image: url(https://c4.wallpaperflare.com/wallpaper/807/743/680/pokemon-tile-cartoon-pattern-hd-wallpaper-preview.jpg);
+}
+
+.container {
+    text-align: center;
+}
+
+img {
+    width: 15%;
+}
+
+table {
+    background-color: #dddbc2;
+}
+
+.cuadrado {
+    background-color: rgb(237, 222, 95);
+    max-width: fit-content;
+    margin: auto;
+}

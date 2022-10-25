@@ -1,0 +1,31 @@
+#tablatipos img {
+    width: 100%;
+    max-width: 50px;
+}
+
+#critico img,
+#efectivo img,
+#neutro img,
+#ineficaz img,
+#resistente img,
+#invulnerable img,
+.debilidades {
+    max-width: 40px !important;
+}
+
+#tablatipos {
+    max-width: 600px;
+    margin: auto;
+}
+
+#tipo1:hover,
+#tipo2:hover,
+.clickable:hover {
+    background-color: rgba(0, 0, 0, 0.116);
+    cursor: pointer;
+}
+
+#tipo1 img,
+#tipo2 img {
+    max-width: 95px;
+}
