@@ -2,7 +2,7 @@ function buscar() {
     var nombre = $("#nombrePokemon")[0].value
     if (nombre) {
         nombre = nombre.toLowerCase().trimLeft().trimRight()
-        $("#imagen")[0].innerHTML = `<div class="rounded p-2 mt-2 cuadrado"><b>Cargando...</b></div>`
+        $("#imagen")[0].innerHTML = `<div class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`
         $.post("/pokemon", { nombre: nombre }, function (result) {
             $("#imagen")[0].innerHTML = result
             $(".evolucion").click(function (e) {
@@ -14,7 +14,7 @@ function buscar() {
             })
         })
     } else {
-        $("#imagen")[0].innerHTML = `<div class="rounded p-2 mt-2 cuadrado" ><b>Escribe el nombre de un pokemon</b></div>`
+        $("#imagen")[0].innerHTML = `<div class="rounded mt-2 cuadrado" ><b>Escribe el nombre de un pokemon</b></div>`
     }
 }
 

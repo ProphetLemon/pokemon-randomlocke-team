@@ -18,4 +18,5 @@ table {
     background-color: rgb(237, 222, 95);
     max-width: fit-content;
     margin: auto;
+    padding: 0.5rem !important;
 }
