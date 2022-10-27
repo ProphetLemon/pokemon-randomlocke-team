@@ -1,5 +1,6 @@
 #teamtable td {
-    height: 158px;
+    height: 190px;
+    min-width: 130px;
     background-color: #dddbc2;
     display: table-cell;
     vertical-align: initial;
@@ -40,12 +41,17 @@ img {
     #teamtable tr {
         text-align: -webkit-center;
     }
+
+    #teamtable {
+        width: auto !important;
+    }
 }
 
 #teamtable {
     border-spacing: 20px;
     border-collapse: separate;
     background-color: transparent;
+    width: min-content;
 }
 
 .pokemonIcon {

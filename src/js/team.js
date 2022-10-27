@@ -3,7 +3,7 @@ function init() {
     for (let i = 0; i < 2; i++) {
         $("#teamtable").append(`<tr id="row${i}"></tr>`)
         for (let j = 0; j < 3; j++) {
-            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2"><b>POKEMON ${(i * 3) + (j + 1)}</b><br><input list="pokemonList${(i * 3) + (j + 1)}" type="text" class="form-control buscador"><datalist id="pokemonList${(i * 3) + (j + 1)}"></datalist></td>`)
+            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2 p-3"><b>POKEMON ${(i * 3) + (j + 1)}</b><br><input list="pokemonList${(i * 3) + (j + 1)}" type="text" class="form-control buscador mb-2"><datalist id="pokemonList${(i * 3) + (j + 1)}"></datalist></td>`)
         }
     }
     //CARGO LOS BUSCADORES DE LA TABLA
