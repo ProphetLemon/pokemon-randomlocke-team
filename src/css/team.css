@@ -5,6 +5,11 @@
     vertical-align: initial;
 }
 
+img {
+    width: 15%;
+    max-width: 70px;
+}
+
 .menu {
     min-width: max-content;
 }
