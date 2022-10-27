@@ -81,13 +81,55 @@ function calcularDamage() {
     })
     var texto = "Tu equipo es debil contra:<br>"
     for (let [key, value] of debilidadesMap) {
-        texto += value >= 1 ? `${key}<br>` : ""
+        texto += value >= 1 ? `<b>${getTraduccion(key)}</b><br>` : ""
     }
-    if (texto == "Tu equipo es debil contra:<br>") {
-        texto += "Nada"
+    if (texto == "Tu equipo es débil contra:<br>") {
+        texto += "<b>Nada</b>"
     }
     $("#debilidadesTexto").remove()
     $("#teamBuilder").after(`<div id="debilidadesTexto" class="container cuadrado">${texto}</div>`)
+}
+
+
+function getTraduccion(key) {
+    switch (key) {
+        case "fighting":
+            return "Lucha"
+        case "bug":
+            return "Bicho"
+        case "psychic":
+            return "Psíquico"
+        case "steel":
+            return "Acero"
+        case "water":
+            return "Agua"
+        case "fire":
+            return "Fuego"
+        case "dark":
+            return "Siniestro"
+        case "normal":
+            return "Normal"
+        case "ghost":
+            return "Fantasma"
+        case "grass":
+            return "Planta"
+        case "ground":
+            return "Tierra"
+        case "rock":
+            return "Roca"
+        case "ice":
+            return "Hielo"
+        case "fairy":
+            return "Hada"
+        case "dragon":
+            return "Dragón"
+        case "electric":
+            return "Eléctrico"
+        case "poison":
+            return "Veneno"
+        case "flying":
+            return "Volador"
+    }
 }
 
 
