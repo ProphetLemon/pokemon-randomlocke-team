@@ -6,7 +6,7 @@ function buscar() {
         $.post("/pokemon", { nombre: nombre }, function (result) {
             $("#imagen")[0].innerHTML = result
             $(".evolucion").click(function (e) {
-                if ($("#nombrePokemon")[0].value.trim() == $(this)[0].innerText.trim()) {
+                if (nombre.trim() == $(this)[0].innerText.trim()) {
                     return;
                 }
                 $("#nombrePokemon")[0].value = $(this)[0].innerText
@@ -25,13 +25,14 @@ $("#nombrePokemon").change(function () {
 
 $('#nombrePokemon').keyup(delay(function (e) {
     var nombre = $(this)[0].value
+    var datalist = $("#listaPokemon")[0]
     if (nombre && nombre.trim() != "") {
         nombre = nombre.toLowerCase().trimLeft().trimRight()
         $.post("/buscar", { nombre: nombre }, function (result) {
-            $("#listaPokemon")[0].innerHTML = result
+            datalist.innerHTML = result
         })
     } else {
-        $("#listaPokemon")[0].innerHTML = ''
+        datalist.innerHTML = ''
     }
 }, 500));
 

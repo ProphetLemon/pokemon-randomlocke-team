@@ -18,6 +18,12 @@
     margin: auto;
 }
 
+@media only screen and (max-width: 736px) {
+    .inline {
+        display: -webkit-inline-box;
+    }
+}
+
 #tipo1:hover,
 #tipo2:hover,
 .clickable:hover {

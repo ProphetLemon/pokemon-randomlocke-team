@@ -1,9 +1,18 @@
 body {
-    background-image: url(https://c4.wallpaperflare.com/wallpaper/807/743/680/pokemon-tile-cartoon-pattern-hd-wallpaper-preview.jpg);
+    background-image: url('/img/pattern.jpg');
 }
 
 .container {
     text-align: center;
+}
+
+.inline {
+    display: inline;
+}
+
+.center {
+    text-align: center;
+    margin: auto;
 }
 
 img {
@@ -12,6 +21,7 @@ img {
 
 table {
     background-color: #dddbc2;
+    margin: auto;
 }
 
 .cuadrado {

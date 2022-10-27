@@ -1,0 +1,35 @@
+#teamtable td {
+    height: 158px;
+    background-color: #dddbc2;
+    display: table-cell;
+    vertical-align: initial;
+}
+
+.menu {
+    min-width: max-content;
+}
+
+@media only screen and (max-width: 736px) {
+    .inline {
+        display: -webkit-inline-box;
+    }
+
+    #teamtable td {
+        display: inherit;
+        vertical-align: initial;
+    }
+
+    #teamtable tr {
+        text-align: -webkit-center;
+    }
+}
+
+#teamtable {
+    border-spacing: 20px;
+    border-collapse: separate;
+    background-color: transparent;
+}
+
+.pokemonIcon {
+    min-width: fit-content;
+}

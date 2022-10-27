@@ -13,7 +13,8 @@ const P = new Pokedex.Pokedex({ cache: false })
 const QuickChart = require('quickchart-js');
 const pokemonJson = require('./src/json/pokemon-json')
 const tabletypesRouter = require("./routers/tabletypesRouter")
-
+const teamRouter = require("./routers/teamRouter")
+app.use('/team', teamRouter)
 app.use('/tabletypes', tabletypesRouter)
 app.get('/', (req, res) => {
     res.render('index');
