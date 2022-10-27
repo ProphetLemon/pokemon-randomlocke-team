@@ -41,20 +41,49 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().attr("id")
-    $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult`).remove()
+    $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#graficaDiv,#debilidadesTexto`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
         $.post("/team/buscar", { nombre: nombre }, function (result) {
             $("#cargando").remove()
             e.parent().append(result)
             calcularDamage()
-            cargarShiny(e.parent().children("img")[0])
+            cargarShiny(e.parent().children("img"))
+            cargarGrafica()
         })
     } else {
         calcularDamage()
+        cargarGrafica()
         $(`#${e.attr("list")}`)[0].innerHTML = ''
     }
 }
+
+function cargarGrafica() {
+    var statsTeam = $(".statsResult")
+    if (statsTeam.length == 0) {
+        return
+    }
+    function recorrerStats(statsTeam, attr) {
+        var stat = 0
+        $(statsTeam).each(function (index, element) {
+            stat += Number(element.innerText.split(",")[attr])
+        })
+        return Math.floor(stat / statsTeam.length)
+    }
+    var hp = recorrerStats(statsTeam, 0)
+    var atq = recorrerStats(statsTeam, 1)
+    var def = recorrerStats(statsTeam, 2)
+    var satq = recorrerStats(statsTeam, 3)
+    var sdef = recorrerStats(statsTeam, 4)
+    var speed = recorrerStats(statsTeam, 5)
+    var datos = [hp, atq, def, satq, sdef, speed]
+    $.post("/team/grafica", { datos: datos }, function (result) {
+        $("#debilidadesTexto").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
+    })
+
+
+}
+
 
 
 function cargarShiny(e) {
@@ -68,6 +97,9 @@ function cargarShiny(e) {
 }
 
 function calcularDamage() {
+    if ($(".debilidadesResult").length == 0) {
+        return
+    }
     var debilidadesMap = new Map()
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = element.innerText.split(",")

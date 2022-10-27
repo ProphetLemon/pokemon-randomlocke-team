@@ -10,6 +10,19 @@ img {
     width: auto;
 }
 
+#debilidadesTexto {
+    background-color: #dddbc2;
+}
+
+#graficaDiv {
+    background-color: #dddbc2;
+}
+
+.grafica {
+    width: auto !important;
+    max-width: -webkit-fill-available;
+}
+
 .menu {
     min-width: max-content;
 }

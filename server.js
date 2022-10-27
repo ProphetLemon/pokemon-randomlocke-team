@@ -57,7 +57,7 @@ app.post('/pokemon', async (req, res) => {
         }
     }
     var imagen = `<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />`
-    var shiny = `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />`
+    var shiny = pokemon.sprites.front_shiny ? `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />` : ''
     var legendario = especie.is_legendary
     var mitico = especie.is_mythical
     var base_stats = 0

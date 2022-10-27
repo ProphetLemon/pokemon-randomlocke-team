@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Pokedex = require("pokeapi-js-wrapper");
+const QuickChart = require('quickchart-js');
 const P = new Pokedex.Pokedex({ cache: false })
 router.get("/", (req, res) => {
     res.render("team")
@@ -26,9 +27,78 @@ router.post("/buscar", async (req, res) => {
     for (let [key, value] of debilidades) {
         debilidadesTexto += `${key}:${value},`
     }
+    var statsTexto = ""
+    for (stat of pokemon.stats) {
+        statsTexto += `${stat.base_stat},`
+    }
+    statsTexto = statsTexto.substring(0, statsTexto.length - 1)
     debilidadesTexto = debilidadesTexto.substring(0, debilidadesTexto.length - 1)
     res.send(`<img class="pokemonIcon" src="${pokemon.sprites.front_default}" default="${pokemon.sprites.front_default}" shiny="${pokemon.sprites.front_shiny}"/>
-    <span class="d-none debilidadesResult">${debilidadesTexto}</span>`)
+    <span class="d-none debilidadesResult">${debilidadesTexto}</span>
+    <span class="d-none statsResult">${statsTexto}</span>`)
+})
+
+router.post("/grafica", async (req, res) => {
+    const myChart = new QuickChart();
+    myChart.setConfig({
+        type: 'horizontalBar',
+        data: {
+            labels: ['PS', 'ATQ', 'DEF', 'AT. ESP', 'DEF. ESP', 'VEL'],
+            datasets: [{
+                label: 'Stats',
+                data: [
+                    req.body["datos[]"][0],
+                    req.body["datos[]"][1],
+                    req.body["datos[]"][2],
+                    req.body["datos[]"][3],
+                    req.body["datos[]"][4],
+                    req.body["datos[]"][5],
+                ],
+                backgroundColor: [
+                    "rgb(83,205,91)",
+                    "rgb(246,222,82)",
+                    "rgb(237,127,15)",
+                    "rgb(86,176,241)",
+                    "rgb(173,98,246)",
+                    "rgb(240,106,206)"
+                ]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        max: 255,
+                        stepSize: 85,
+                        fontColor: '#000000'
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        fontColor: '#000000'
+                    }
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (val) => {
+                        return val.toLocaleString();
+                    },
+                    color: (context) => '#000',
+                    anchor: (context) => context.dataset.data[context.dataIndex] > 15 ? 'center' : 'end',
+                    align: (context) => context.dataset.data[context.dataIndex] > 15 ? 'center' : 'right',
+                }
+            }
+        }
+    });
+    myChart.setFormat("png")
+    myChart.setBackgroundColor("#ffffff00")
+    const url = await myChart.getShortUrl();
+    res.send(url)
 })
 
 module.exports = router
