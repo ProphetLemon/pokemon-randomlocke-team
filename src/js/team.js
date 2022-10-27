@@ -86,7 +86,8 @@ function calcularDamage() {
     if (texto == "Tu equipo es debil contra:<br>") {
         texto += "Nada"
     }
-    $("#teamBuilder").after(`<div class="container cuadrado">${texto}</div>`)
+    $("#debilidadesTexto").remove()
+    $("#teamBuilder").after(`<div id="debilidadesTexto" class="container cuadrado">${texto}</div>`)
 }
 
 
