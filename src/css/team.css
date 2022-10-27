@@ -7,7 +7,7 @@
 
 img {
     width: 15%;
-    max-width: 70px;
+    max-width: 90px;
 }
 
 .menu {
@@ -37,4 +37,5 @@ img {
 
 .pokemonIcon {
     min-width: fit-content;
+    cursor: pointer;
 }

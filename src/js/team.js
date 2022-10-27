@@ -56,11 +56,27 @@ function buscar(e) {
             $("#cargando").remove()
             e.parent().append(result)
             calcularDamage()
+            cargarShiny()
         })
     } else {
         calcularDamage()
         $(`#${e.attr("list")}`)[0].innerHTML = ''
     }
+}
+
+
+function cargarShiny() {
+    $(".pokemonIcon").click(function () {
+        var link = $(this).attr("src")
+        linkArray = link.split("/")
+        if (linkArray.includes("shiny")) {
+            linkArray.splice(linkArray.length - 2, 1)
+        } else {
+            linkArray[linkArray.length - 1] = `shiny/${linkArray[linkArray.length - 1]}`
+        }
+
+        $(this).attr("src", linkArray.join("/"))
+    })
 }
 
 function calcularDamage() {
@@ -83,7 +99,7 @@ function calcularDamage() {
     for (let [key, value] of debilidadesMap) {
         texto += value >= 1 ? `<b>${getIcon(key)}</b>` : ""
     }
-    if (texto == "Tu equipo es débil contra:<br>") {
+    if (texto == "<b>Tu equipo es débil contra:</b><br><br>") {
         texto += "<b>Nada</b>"
     }
     $("#debilidadesTexto").remove()
