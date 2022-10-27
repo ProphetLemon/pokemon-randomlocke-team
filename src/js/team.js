@@ -80,8 +80,6 @@ function cargarGrafica() {
     $.post("/team/grafica", { datos: datos }, function (result) {
         $("#debilidadesTexto").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
     })
-
-
 }
 
 
