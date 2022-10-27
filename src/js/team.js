@@ -48,7 +48,7 @@ function buscar(e) {
             $("#cargando").remove()
             e.parent().append(result)
             calcularDamage()
-            cargarShiny()
+            cargarShiny(e.parent().children("img")[0])
         })
     } else {
         calcularDamage()
@@ -57,8 +57,8 @@ function buscar(e) {
 }
 
 
-function cargarShiny() {
-    $(".pokemonIcon").click(function () {
+function cargarShiny(e) {
+    $(e).click(function () {
         if ($(this).attr("shiny") != "null") {
             var link = $(this).attr("src")
             $(this).attr("src", link.split("shiny").length == 2 ? $(this).attr("default") : $(this).attr("shiny"))
@@ -85,7 +85,7 @@ function calcularDamage() {
     })
     var texto = "<b>Tu equipo es débil contra:</b><br><br>"
     for (let [key, value] of debilidadesMap) {
-        texto += value >= 1 ? `<b>${getIcon(key)}</b>` : ""
+        texto += value >= 1 ? `${getIcon(key)}x${value}` : ""
     }
     if (texto == "<b>Tu equipo es débil contra:</b><br><br>") {
         texto += "<b>Nada</b>"
