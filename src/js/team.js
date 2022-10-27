@@ -25,14 +25,6 @@ function init() {
         }
     }, 500));
 
-    $('.buscador').keypress(function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            $(this).blur()
-            buscar($(this))
-        }
-    });
-
 }
 
 function delay(callback, ms) {
@@ -67,15 +59,11 @@ function buscar(e) {
 
 function cargarShiny() {
     $(".pokemonIcon").click(function () {
-        var link = $(this).attr("src")
-        linkArray = link.split("/")
-        if (linkArray.includes("shiny")) {
-            linkArray.splice(linkArray.length - 2, 1)
-        } else {
-            linkArray[linkArray.length - 1] = `shiny/${linkArray[linkArray.length - 1]}`
+        if ($(this).attr("shiny") != "null") {
+            var link = $(this).attr("src")
+            $(this).attr("src", link.split("shiny").length == 2 ? $(this).attr("default") : $(this).attr("shiny"))
         }
 
-        $(this).attr("src", linkArray.join("/"))
     })
 }
 

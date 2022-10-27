@@ -27,7 +27,7 @@ router.post("/buscar", async (req, res) => {
         debilidadesTexto += `${key}:${value},`
     }
     debilidadesTexto = debilidadesTexto.substring(0, debilidadesTexto.length - 1)
-    res.send(`<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />
+    res.send(`<img class="pokemonIcon" src="${pokemon.sprites.front_default}" default="${pokemon.sprites.front_default}" shiny="${pokemon.sprites.front_shiny}"/>
     <span class="d-none debilidadesResult">${debilidadesTexto}</span>`)
 })
 
