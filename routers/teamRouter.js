@@ -33,9 +33,22 @@ router.post("/buscar", async (req, res) => {
     }
     statsTexto = statsTexto.substring(0, statsTexto.length - 1)
     debilidadesTexto = debilidadesTexto.substring(0, debilidadesTexto.length - 1)
+
+    var aQuienPego = ""
+    for (dato of type1.damage_relations.double_damage_to) {
+        aQuienPego += `${dato.name}:2,`
+    }
+    if (type2 != "") {
+        for (dato of type2.damage_relations.double_damage_to) {
+            aQuienPego += `${dato.name}:2,`
+        }
+    }
+    aQuienPego = aQuienPego.substring(0, aQuienPego.length - 1)
+
     res.send(`<img class="pokemonIcon" src="${pokemon.sprites.front_default}" default="${pokemon.sprites.front_default}" shiny="${pokemon.sprites.front_shiny}"/>
     <span class="d-none debilidadesResult">${debilidadesTexto}</span>
-    <span class="d-none statsResult">${statsTexto}</span>`)
+    <span class="d-none statsResult">${statsTexto}</span>
+    <span class="d-none eficaciasResult">${aQuienPego}</span>`)
 })
 
 router.post("/grafica", async (req, res) => {

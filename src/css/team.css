@@ -6,17 +6,43 @@
     vertical-align: initial;
 }
 
+.seleccionado-danger {
+    background-color: #ff8282 !important;
+}
+
+.sombreado {
+    background-color: #00000040;
+}
+
+.seleccionado-safe {
+    background-color: #5ec4ff !important;
+}
+
+.seleccionado-inmune {
+    background-color: #797979 !important;
+}
+
+.seleccionado-eficaz {
+    background-color: #81ff81 !important;
+}
+
 .buscador {
     width: 100% !important;
 }
 
 img {
-    max-width: 70px;
+    max-width: 50px;
     width: auto;
 }
 
-#debilidadesTexto {
-    background-color: #dddbc2;
+#cuadradosColores img {
+    cursor: pointer;
+}
+
+#debilidadesTexto,
+#coberturaTexto,
+#inmunidadTexto {
+    display: inline-table;
 }
 
 #graficaDiv {
@@ -50,6 +76,10 @@ img {
     #teamtable {
         width: auto !important;
     }
+}
+
+#cuadradosColores {
+    max-width: min-content;
 }
 
 #teamtable {

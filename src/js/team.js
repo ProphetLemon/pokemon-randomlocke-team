@@ -56,7 +56,8 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
-    $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#graficaDiv,#debilidadesTexto`).remove()
+    $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#${td} .typesResult, #${td} .eficaciasResult,
+    #cuadradosColores`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
         $.post("/team/buscar", { nombre: nombre }, function (result) {
@@ -93,7 +94,7 @@ function cargarGrafica() {
     var speed = recorrerStats(statsTeam, 5)
     var datos = [hp, atq, def, satq, sdef, speed]
     $.post("/team/grafica", { datos: datos }, function (result) {
-        $("#debilidadesTexto").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
+        $(".row").last().after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
     })
 }
 
@@ -108,6 +109,8 @@ function cargarShiny(e) {
 
     })
 }
+
+var hover = undefined
 
 function calcularDamage() {
     if ($(".debilidadesResult").length == 0) {
@@ -128,15 +131,100 @@ function calcularDamage() {
             }
         }
     })
-    var texto = "<b>Tu equipo es débil contra:</b><br><br>"
+
+    $("#cuadradosColores").remove()
+    var imagenes = ""
+    $(".eficaciasResult").each(function (index, element) {
+        var debilidades = $(element)[0].innerText.split(",")
+        for (debilidad of debilidades) {
+            if (!imagenes.includes(getIcon(debilidad.split(":")[0]))) {
+                imagenes += `${getIcon(debilidad.split(":")[0])}`
+            }
+        }
+    })
+    $("#teamBuilder").after(`
+    <div id="cuadradosColores" class="container">
+        <div class="row">
+            <div id="eficaciasTexto" class="container col-6 seleccionado-eficaz">
+                <b>Tu equipo presenta eficacias contra:</b><br><br>
+                ${imagenes}
+            </div>
+        </div>
+    </div>`)
+    cargarSeleccionados("#eficaciasTexto", 1, "seleccionado-eficaz", "eficaciasResult")
+    imagenes = ""
+    $(".debilidadesResult").each(function (index, element) {
+        var debilidades = $(element)[0].innerText.split(",")
+        for (debilidad of debilidades) {
+            var name = debilidad.split(":")[0]
+            var dmg = Number(debilidad.split(":")[1])
+            if (dmg < 1 && dmg != 0) {
+                if (!imagenes.includes(getIcon(name))) {
+                    imagenes += getIcon(name)
+                }
+            }
+        }
+    })
+    $("#eficaciasTexto").after(`<div id="coberturaTexto" class="container col-6 seleccionado-safe">
+    <b>Tu equipo presenta resistencias a:</b><br><br>
+    ${imagenes}
+    </div>`)
+    cargarSeleccionados("#coberturaTexto", -1, "seleccionado-safe", "debilidadesResult")
+    imagenes = ""
+    $(".debilidadesResult").each(function (index, element) {
+        var debilidades = $(element)[0].innerText.split(",")
+        for (debilidad of debilidades) {
+            var name = debilidad.split(":")[0]
+            var dmg = Number(debilidad.split(":")[1])
+            if (dmg == 0) {
+                if (!imagenes.includes(getIcon(name))) {
+                    imagenes += getIcon(name)
+                }
+            }
+        }
+    })
+    $("#coberturaTexto").parent().after(`
+    <div class="row">
+        <div id="inmunidadTexto" class="container col-6 seleccionado-inmune">
+            <b>Tu equipo presenta inmunidad a:</b><br><br>
+            ${imagenes != "" ? imagenes : "<b>Nada</b>"}
+        </div>
+    </div>`)
+    cargarSeleccionados("#inmunidadTexto", 0, "seleccionado-inmune", "debilidadesResult")
+    imagenes = ""
     for (let [key, value] of debilidadesMap) {
-        texto += value >= 1 ? `${getIcon(key)}` : ""
+        if (value >= 1) {
+            imagenes += `${getIcon(key)}`
+        }
     }
-    if (texto == "<b>Tu equipo es débil contra:</b><br><br>") {
-        texto += "<b>Nada</b>"
-    }
-    $("#debilidadesTexto").remove()
-    $("#teamBuilder").after(`<div id="debilidadesTexto" class="container cuadrado">${texto}</div>`)
+    $("#inmunidadTexto").after(`
+            <div id="debilidadesTexto" class="container col-6 seleccionado-danger">
+                <b>Tu equipo es especialmente debil a:</b><br><br>
+                ${imagenes != "" ? imagenes : "<b>Nada</b>"}
+            </div>
+        `)
+    cargarSeleccionados("#debilidadesTexto", 1, "seleccionado-danger", "debilidadesResult")
+}
+
+function cargarSeleccionados(div, trigger, claseSeleccion, claseTarget) {
+    $(`${div} img`).hover(function (elementImg) {
+        hover = elementImg.currentTarget
+        $(hover).addClass("sombreado")
+        $(`.${claseTarget}`).each(function (index, element) {
+            var debilidades = $(element)[0].innerText.split(",")
+            for (debilidad of debilidades) {
+                var name = debilidad.split(":")[0]
+                var dmg = Number(debilidad.split(":")[1])
+                if ((trigger == 1 ? dmg > 1 : trigger == -1 ? dmg < 1 : dmg == 0) && getTraduccion(name) == $(hover).attr("title")) {
+                    return $(element).parent().addClass(claseSeleccion)
+                }
+            }
+        })
+    }, function () {
+        $(hover).removeClass("sombreado")
+        hover = undefined
+        $(`#teamBuilder .${claseSeleccion}`).removeClass(claseSeleccion);
+    })
 }
 
 function getIcon(key) {
@@ -150,7 +238,7 @@ function getIcon(key) {
         case 'dragon':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/d/d4/Type_Drag%C3%B3n.png" title="Dragón"/>`
         case 'electric':
-            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/c/c7/Type_El%C3%A9ctrico.png/" title="Electrico"/>`
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/c/c7/Type_El%C3%A9ctrico.png/" title="Eléctrico"/>`
         case 'ghost':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/1/11/Type_Fantasma.png" title="Fantasma"/>`
         case 'fire':
@@ -166,7 +254,7 @@ function getIcon(key) {
         case 'grass':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/6/60/Type_Planta.png/" title="Planta"/>`
         case 'psychic':
-            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/7/72/Type_Ps%C3%ADquico.png/" title="Psiquico"/>`
+            return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/7/72/Type_Ps%C3%ADquico.png/" title="Psíquico"/>`
         case 'rock':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/b/b3/Type_Roca.png/" title="Roca"/>`
         case 'dark':
