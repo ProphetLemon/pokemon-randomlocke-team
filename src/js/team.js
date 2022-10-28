@@ -63,7 +63,7 @@ function buscar(e) {
             $("#cargando").remove()
             e.parent().parent().append(result)
             calcularDamage()
-            cargarShiny(e.parent().children("img"))
+            cargarShiny(e.parent().parent().children("img"))
             cargarGrafica()
         })
     } else {
