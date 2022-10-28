@@ -3,9 +3,24 @@ function init() {
     for (let i = 0; i < 2; i++) {
         $("#teamtable").append(`<tr id="row${i}"></tr>`)
         for (let j = 0; j < 3; j++) {
-            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2 p-3"><b>POKEMON ${(i * 3) + (j + 1)}</b><br><input list="pokemonList${(i * 3) + (j + 1)}" type="text" class="form-control buscador mb-2"><datalist id="pokemonList${(i * 3) + (j + 1)}"></datalist></td>`)
+            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2 p-3"><b>POKEMON ${(i * 3) + (j + 1)}</b>
+            <br>
+            <div class="input-group">
+                <input list="pokemonList${(i * 3) + (j + 1)}" type="text" class="buscador form-control mb-2">           
+                <button type="button" class="btn bg-transparent borrar" style="margin-left: -40px; z-index: 100; margin-bottom:10px;">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>            
+            <datalist id="pokemonList${(i * 3) + (j + 1)}"></datalist>
+            </td>`)
         }
     }
+    //CARGO LOS BOTONES DE BORRAR
+    $(".borrar").click(function (e) {
+        $(this).parent().children("input").val("")
+        buscar($(this).parent().children("input"))
+    })
+
     //CARGO LOS BUSCADORES DE LA TABLA
     $(".buscador").change(function () {
         $(this).blur()
@@ -40,13 +55,13 @@ function delay(callback, ms) {
 
 function buscar(e) {
     var nombre = e.val().trim()
-    var td = e.parent().attr("id")
+    var td = e.parent().parent().attr("id")
     $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#graficaDiv,#debilidadesTexto`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
         $.post("/team/buscar", { nombre: nombre }, function (result) {
             $("#cargando").remove()
-            e.parent().append(result)
+            e.parent().parent().append(result)
             calcularDamage()
             cargarShiny(e.parent().children("img"))
             cargarGrafica()

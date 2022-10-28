@@ -1,9 +1,13 @@
 #teamtable td {
     height: 190px;
-    min-width: 130px;
+    min-width: 160px;
     background-color: #dddbc2;
     display: table-cell;
     vertical-align: initial;
+}
+
+.buscador {
+    width: 100% !important;
 }
 
 img {
