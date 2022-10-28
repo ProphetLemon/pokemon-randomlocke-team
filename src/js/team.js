@@ -115,7 +115,7 @@ function calcularDamage() {
     })
     var texto = "<b>Tu equipo es débil contra:</b><br><br>"
     for (let [key, value] of debilidadesMap) {
-        texto += value >= 1 ? `${getIcon(key)}x${value}` : ""
+        texto += value >= 1 ? `${getIcon(key)}` : ""
     }
     if (texto == "<b>Tu equipo es débil contra:</b><br><br>") {
         texto += "<b>Nada</b>"
