@@ -193,7 +193,7 @@ function calcularDamage() {
     cargarSeleccionados("#inmunidadTexto", 0, "seleccionado-inmune", "debilidadesResult")
     imagenes = ""
     for (let [key, value] of debilidadesMap) {
-        if (value >= 1) {
+        if (value > 1) {
             imagenes += `${getIcon(key)}`
         }
     }
