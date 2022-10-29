@@ -3,7 +3,7 @@ function init() {
     for (let i = 0; i < 2; i++) {
         $("#teamtable").append(`<tr id="row${i}"></tr>`)
         for (let j = 0; j < 3; j++) {
-            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2 p-3"><b>POKEMON ${(i * 3) + (j + 1)}</b>
+            $(`#row${i}`).append(`<td id="pokemon${(i * 3) + (j + 1)}" class="me-2 p-3"><b>POKÉMON ${(i * 3) + (j + 1)}</b>
             <br>
             <div class="input-group">
                 <input list="pokemonList${(i * 3) + (j + 1)}" type="text" class="buscador form-control mb-2">           
@@ -42,27 +42,38 @@ function init() {
 
 }
 
+var randomAjax = ""
+
 function random() {
+    if (randomAjax != "") {
+        return
+    }
     var cont = 0
     $(".buscador").each(function (index, element) {
         if ($(element).val().trim() == "") {
             cont++
         }
     })
+    if (cont == 0) {
+        return
+    }
     var botonera = $("#botonera")[0]
     botonera.innerHTML = botonera.innerHTML + `<div class="cuadrado cargando mt-2"><b>Cargando...</b></div>`
-    $.post("/team/random", { cont: cont }, function (result) {
-        var cont = 0
+    randomAjax = $.post("/team/random", { cont: cont }, function (result) {
         $(".cargando").remove()
+        var valorInicial = cont
         $(".buscador").each(function (index, element) {
             if ($(element).val().trim() == "") {
                 var pokemon = result[0]
                 result.splice(0, 1)
-                setTimeout((pokemon) => {
+                setTimeout((pokemon, cont) => {
                     $(element).val(pokemon)
                     buscar($(element))
-                }, cont * 1500, pokemon);
-                cont++
+                    if (cont == 1) {
+                        randomAjax = ""
+                    }
+                }, (valorInicial - cont) * 1500, pokemon, cont);
+                cont--
             }
         })
     })
@@ -86,7 +97,7 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
-    $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#${td} .typesResult, #${td} .eficaciasResult,
+    $(`#${td} img,#${td} .pokemonError, #${td} span,
     #cuadradosColores,#graficaDiv`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
