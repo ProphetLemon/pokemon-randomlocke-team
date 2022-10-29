@@ -3,6 +3,7 @@ const router = express.Router()
 const Pokedex = require("pokeapi-js-wrapper");
 const QuickChart = require('quickchart-js');
 const P = new Pokedex.Pokedex({ cache: false })
+const pokemonJson = require('../src/json/pokemon-json')
 router.get("/", (req, res) => {
     res.render("team")
 })
@@ -28,27 +29,71 @@ router.post("/buscar", async (req, res) => {
         debilidadesTexto += `${key}:${value},`
     }
     var statsTexto = ""
-    for (stat of pokemon.stats) {
+    for (let stat of pokemon.stats) {
         statsTexto += `${stat.base_stat},`
     }
     statsTexto = statsTexto.substring(0, statsTexto.length - 1)
     debilidadesTexto = debilidadesTexto.substring(0, debilidadesTexto.length - 1)
 
     var aQuienPego = ""
-    for (dato of type1.damage_relations.double_damage_to) {
+    for (let dato of type1.damage_relations.double_damage_to) {
         aQuienPego += `${dato.name}:2,`
     }
     if (type2 != "") {
-        for (dato of type2.damage_relations.double_damage_to) {
+        for (let dato of type2.damage_relations.double_damage_to) {
             aQuienPego += `${dato.name}:2,`
         }
     }
     aQuienPego = aQuienPego.substring(0, aQuienPego.length - 1)
 
-    res.send(`<img class="pokemonIcon" src="${pokemon.sprites.front_default}" default="${pokemon.sprites.front_default}" shiny="${pokemon.sprites.front_shiny}"/>
+    var defaultImage = ""
+    var imagen = pokemon.sprites.front_default ? pokemon.sprites.front_default : '/img/missingno.png'
+    var shiny = pokemon.sprites.front_shiny ? pokemon.sprites.front_shiny : '/img/missingnoshiny.png'
+    if (pokemon.sprites.front_default && pokemon.sprites.front_shiny) {
+        defaultImage = Math.floor((Math.random() * 10) + 1) == 10 ? pokemon.sprites.front_shiny : pokemon.sprites.front_default
+    }
+    else {
+        defaultImage = imagen
+    }
+    res.send(`<img class="pokemonIcon" src="${defaultImage}" default="${imagen}" shiny="${shiny}"/>
     <span class="d-none debilidadesResult">${debilidadesTexto}</span>
     <span class="d-none statsResult">${statsTexto}</span>
     <span class="d-none eficaciasResult">${aQuienPego}</span>`)
+})
+
+router.post("/random", async (req, res) => {
+    var pokemonsRandom = []
+    var listaPokemon = Array.from(pokemonJson)
+    for (let i = 0; i < req.body.cont; i++) {
+        var posicion = Math.floor(Math.random() * listaPokemon.length)
+        var pokemon = await P.getPokemonByName(listaPokemon[posicion].name)
+        listaPokemon.splice(posicion, 1)
+        var totalStats = 0
+        for (let stat of pokemon.stats) {
+            totalStats += stat.base_stat
+        }
+        if (pokemon.name.includes("-totem") || totalStats < 440 || pokemonsRandom.includes(pokemon.name)) {
+            i--
+            continue
+        }
+        pokemonsRandom.push(pokemon.name)
+    }
+    res.send(pokemonsRandom)
+})
+
+router.post("/recomendaciones", async (req, res) => {
+    var tipos = req.body.datos.split(",")
+    var recomendaciones = ""
+    for (let tipo of tipos) {
+        var type = await P.getTypeByName(tipo)
+        var relaciones = type.damage_relations.half_damage_to.concat(type.damage_relations.no_damage_to)
+        for (let recomendacion of relaciones) {
+            if (!recomendaciones.includes(getIcon(recomendacion.name))) {
+                recomendaciones += getIcon(recomendacion.name)
+            }
+        }
+    }
+    res.send(recomendaciones)
 })
 
 router.post("/grafica", async (req, res) => {

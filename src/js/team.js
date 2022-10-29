@@ -42,6 +42,36 @@ function init() {
 
 }
 
+function random() {
+    var cont = 0
+    $(".buscador").each(function (index, element) {
+        if ($(element).val().trim() == "") {
+            cont++
+        }
+    })
+    var botonera = $("#botonera")[0]
+    botonera.innerHTML = botonera.innerHTML + `<div class="cuadrado cargando mt-2"><b>Cargando...</b></div>`
+    $.post("/team/random", { cont: cont }, function (result) {
+        var cont = 0
+        $(".cargando").remove()
+        $(".buscador").each(function (index, element) {
+            if ($(element).val().trim() == "") {
+                var pokemon = result[0]
+                result.splice(0, 1)
+                setTimeout((pokemon) => {
+                    $(element).val(pokemon)
+                    buscar($(element))
+                }, cont * 1500, pokemon);
+                cont++
+            }
+        })
+    })
+}
+
+function borrarTodo() {
+    $(".borrar").click()
+}
+
 function delay(callback, ms) {
     var timer = 0;
     return function () {
@@ -57,7 +87,7 @@ function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
     $(`#${td} .pokemonIcon,#${td} .pokemonError, #${td} .debilidadesResult,#${td} .statsResult,#${td} .typesResult, #${td} .eficaciasResult,
-    #cuadradosColores`).remove()
+    #cuadradosColores,#graficaDiv`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
         $.post("/team/buscar", { nombre: nombre }, function (result) {
@@ -94,7 +124,7 @@ function cargarGrafica() {
     var speed = recorrerStats(statsTeam, 5)
     var datos = [hp, atq, def, satq, sdef, speed]
     $.post("/team/grafica", { datos: datos }, function (result) {
-        $(".row").last().after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
+        $("#cuadradosColores").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
     })
 }
 
@@ -119,7 +149,7 @@ function calcularDamage() {
     var debilidadesMap = new Map()
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = element.innerText.split(",")
-        for (debilidad of debilidades) {
+        for (let debilidad of debilidades) {
             var dmg = Number(debilidad.split(":")[1])
             var type = debilidad.split(":")[0]
             if (dmg > 1) {
@@ -137,7 +167,7 @@ function calcularDamage() {
     var imagenes = ""
     $(".eficaciasResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
-        for (debilidad of debilidades) {
+        for (let debilidad of debilidades) {
             if (!imagenes.includes(getIcon(debilidad.split(":")[0]))) {
                 imagenes += `${getIcon(debilidad.split(":")[0])}`
             }
@@ -157,7 +187,7 @@ function calcularDamage() {
     imagenes = ""
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
-        for (debilidad of debilidades) {
+        for (let debilidad of debilidades) {
             var name = debilidad.split(":")[0]
             var dmg = Number(debilidad.split(":")[1])
             if (dmg < 1) {
@@ -176,7 +206,7 @@ function calcularDamage() {
     imagenes = ""
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
-        for (debilidad of debilidades) {
+        for (let debilidad of debilidades) {
             var name = debilidad.split(":")[0]
             var dmg = Number(debilidad.split(":")[1])
             if (dmg == 0) {
@@ -196,18 +226,32 @@ function calcularDamage() {
     cargarSeleccionados("#inmunidadTexto", 0, "seleccionado-inmune", "debilidadesResult")
     //ESTE ES EL CUADRADO ROJO
     imagenes = ""
+    var debilidadesEspeciales = []
     for (let [key, value] of debilidadesMap) {
         if (value > 1) {
+            debilidadesEspeciales.push(key)
             imagenes += `${getIcon(key)}`
         }
     }
     $("#inmunidadTexto").after(`
             <div id="debilidadesTexto" class="container col-6 seleccionado-danger">
-                <b>Tu equipo es especialmente debil a:</b><br><br>
+                <b>Tu equipo es especialmente débil a:</b><br><br>
                 ${imagenes != "" ? imagenes : "<b>Nada</b>"}
             </div>
         `)
     cargarSeleccionados("#debilidadesTexto", 1, "seleccionado-danger", "debilidadesResult")
+    //ESTE ES EL CUADRADO BLANCO
+    if (imagenes != "") {
+        $.post("/team/recomendaciones", { datos: debilidadesEspeciales.join(",") }, function (result) {
+            $("#debilidadesTexto").parent().after(`
+            <div class="row">
+                <div id="recomendacionTexto" class="container col-12 seleccionado-recomendacion">
+                    <b>Te recomendamos que incluyas alguno de los siguientes tipos:</b><br>
+                    ${result}
+                </div>
+            </div>`)
+        })
+    }
 }
 
 function cargarSeleccionados(div, trigger, claseSeleccion, claseTarget) {
@@ -216,7 +260,7 @@ function cargarSeleccionados(div, trigger, claseSeleccion, claseTarget) {
         $(hover).addClass("sombreado")
         $(`.${claseTarget}`).each(function (index, element) {
             var debilidades = $(element)[0].innerText.split(",")
-            for (debilidad of debilidades) {
+            for (let debilidad of debilidades) {
                 var name = debilidad.split(":")[0]
                 var dmg = Number(debilidad.split(":")[1])
                 if ((trigger == 1 ? dmg > 1 : trigger == -1 ? dmg < 1 : dmg == 0) && getTraduccion(name) == $(hover).attr("title")) {

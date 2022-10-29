@@ -56,8 +56,8 @@ app.post('/pokemon', async (req, res) => {
             return res.send("<b>No encontré el pokemon</b>")
         }
     }
-    var imagen = `<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />`
-    var shiny = pokemon.sprites.front_shiny ? `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />` : ''
+    var imagen = pokemon.sprites.front_default ? `<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />` : '<img class="pokemonIco" src="/img/missingno.png" />'
+    var shiny = pokemon.sprites.front_shiny ? `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />` : '<img class="pokemonIco" src="/img/missingnoshiny.png" />'
     var legendario = especie.is_legendary
     var mitico = especie.is_mythical
     var base_stats = 0
@@ -132,7 +132,7 @@ app.post('/pokemon', async (req, res) => {
         <table id="resultado" class="rounded-top mt-3 mb-3 col-10">
         <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}${shiny}</td></tr>
         <tr><td id="evoluciones" class="border border-secondary" colspan="2">${evoluciones}</td></tr>
-        <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">${especie.pokedex_numbers[0].entry_number}</td></tr>
+        <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">Nº ${especie.pokedex_numbers[0].entry_number}${especie.pokedex_numbers[0].pokedex.name == 'national' ? '' : ` - ${especie.pokedex_numbers[0].pokedex.name}`}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>RELACIÓN DE DAÑO</b></td></tr>
@@ -190,27 +190,32 @@ async function cargarEvoluciones(especie, name) {
         return evolucionstring
     }
     var pokemonSpecies = especie
-    var pokemonEvolutionChain = await P.resource(pokemonSpecies.evolution_chain.url)
-    var primeraEvolucion = `<span class="evolucion">${pokemonEvolutionChain.chain.species.name}</span>`
-    var segundaEvolucion = ""
-    for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
-        let evolution = pokemonEvolutionChain.chain.evolves_to[i]
-        segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span> / `
-    }
-    segundaEvolucion = ordenAlfabetico(segundaEvolucion)
-    var terceraEvolucion = ""
-    for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
-        let evolution = pokemonEvolutionChain.chain.evolves_to[i]
-        if (evolution.evolves_to.length > 0) {
-            for (let j = 0; j < evolution.evolves_to.length; j++) {
-                terceraEvolucion += `<span class="evolucion">${evolution.evolves_to[j].species.name}</span> / `
+    if (pokemonSpecies.evolution_chain) {
+        var pokemonEvolutionChain = await P.resource(pokemonSpecies.evolution_chain.url)
+        var primeraEvolucion = `<span class="evolucion">${pokemonEvolutionChain.chain.species.name}</span>`
+        var segundaEvolucion = ""
+        for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
+            let evolution = pokemonEvolutionChain.chain.evolves_to[i]
+            segundaEvolucion += `<span class="evolucion">${evolution.species.name}</span> / `
+        }
+        segundaEvolucion = ordenAlfabetico(segundaEvolucion)
+        var terceraEvolucion = ""
+        for (let i = 0; i < pokemonEvolutionChain.chain.evolves_to.length; i++) {
+            let evolution = pokemonEvolutionChain.chain.evolves_to[i]
+            if (evolution.evolves_to.length > 0) {
+                for (let j = 0; j < evolution.evolves_to.length; j++) {
+                    terceraEvolucion += `<span class="evolucion">${evolution.evolves_to[j].species.name}</span> / `
+                }
             }
         }
+        terceraEvolucion = ordenAlfabetico(terceraEvolucion)
+        var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
+        evoluciones = evoluciones.split(`>${name}<`).join(`><b>${name}</b><`)
+        return evoluciones
+    } else {
+        return "No se han encotrado datos"
     }
-    terceraEvolucion = ordenAlfabetico(terceraEvolucion)
-    var evoluciones = primeraEvolucion + segundaEvolucion + terceraEvolucion
-    evoluciones = evoluciones.split(`>${name}<`).join(`><b>${name}</b><`)
-    return evoluciones
+
 }
 
 /**
@@ -252,7 +257,7 @@ global.crearTexto = function (debilidades) {
     return json
 }
 
-function getIcon(key) {
+global.getIcon = function (key) {
     switch (key) {
         case 'steel':
             return `<img src="https://static.wikia.nocookie.net/pokemongo_es_gamepedia/images/2/2c/Type_Acero.png/" title="Acero"/>`
