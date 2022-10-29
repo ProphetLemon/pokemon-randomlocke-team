@@ -133,6 +133,7 @@ function calcularDamage() {
     })
 
     $("#cuadradosColores").remove()
+    //ESTE ES EL CUADRADO VERDE
     var imagenes = ""
     $(".eficaciasResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
@@ -152,13 +153,14 @@ function calcularDamage() {
         </div>
     </div>`)
     cargarSeleccionados("#eficaciasTexto", 1, "seleccionado-eficaz", "eficaciasResult")
+    //ESTE ES EL CUADRADO AZUL
     imagenes = ""
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
         for (debilidad of debilidades) {
             var name = debilidad.split(":")[0]
             var dmg = Number(debilidad.split(":")[1])
-            if (dmg < 1 && dmg != 0) {
+            if (dmg < 1) {
                 if (!imagenes.includes(getIcon(name))) {
                     imagenes += getIcon(name)
                 }
@@ -170,6 +172,7 @@ function calcularDamage() {
     ${imagenes}
     </div>`)
     cargarSeleccionados("#coberturaTexto", -1, "seleccionado-safe", "debilidadesResult")
+    //ESTE ES EL CUADRADO NEGRO
     imagenes = ""
     $(".debilidadesResult").each(function (index, element) {
         var debilidades = $(element)[0].innerText.split(",")
@@ -191,6 +194,7 @@ function calcularDamage() {
         </div>
     </div>`)
     cargarSeleccionados("#inmunidadTexto", 0, "seleccionado-inmune", "debilidadesResult")
+    //ESTE ES EL CUADRADO ROJO
     imagenes = ""
     for (let [key, value] of debilidadesMap) {
         if (value > 1) {
