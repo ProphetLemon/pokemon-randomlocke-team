@@ -97,7 +97,7 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
-    $(`#${td} img,#${td} .pokemonError, #${td} span,
+    $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} a,
     #cuadradosColores,#graficaDiv`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
