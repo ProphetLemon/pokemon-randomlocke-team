@@ -190,7 +190,7 @@ async function cargarEvoluciones(especie, name) {
         return evolucionstring
     }
     var pokemonSpecies = especie
-    if (pokemonSpecies.evolution_chain) {
+    if (pokemonSpecies.evolution_chain && pokemonSpecies.evolution_chain.url) {
         var pokemonEvolutionChain = await P.resource(pokemonSpecies.evolution_chain.url)
         var primeraEvolucion = `<span class="evolucion">${pokemonEvolutionChain.chain.species.name}</span>`
         var segundaEvolucion = ""
