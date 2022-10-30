@@ -19,6 +19,14 @@ img {
     width: 15%;
 }
 
+.modal-header,
+.modal-content,
+.modal-body,
+.modal-footer {
+    border: 0px;
+    background-color: transparent;
+}
+
 table {
     background-color: #dddbc2;
     margin: auto;

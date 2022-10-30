@@ -6,6 +6,14 @@
     vertical-align: initial;
 }
 
+#grafico {
+    min-width: -webkit-fill-available;
+}
+
+.modal-body {
+    text-align: center;
+}
+
 #teamtable img {
     max-width: 30px;
 }

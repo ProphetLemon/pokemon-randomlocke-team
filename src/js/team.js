@@ -44,6 +44,25 @@ function init() {
 
 var randomAjax = ""
 
+
+function cargarDetalle(element, nombre) {
+    $("#resultado").remove()
+    if (!nombre) {
+        nombre = $(element).parent().children(".input-group").children().val()
+    }
+    if (nombre) {
+        nombre = nombre.toLowerCase().trimLeft().trimRight()
+        $(".modal-body")[0].innerHTML = `<div class="rounded mt-2 cuadrado cargando"><b>Cargando...</b></div>`
+        $.post("/pokemon", { nombre: nombre }, function (result) {
+            $(".cargando").remove()
+            $(".modal-body")[0].innerHTML = result
+            $(".evolucion").click(function (e) {
+                cargarDetalle(undefined, e.currentTarget.innerText)
+            })
+        })
+    }
+}
+
 function random() {
     if (randomAjax != "") {
         return
@@ -97,7 +116,7 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
-    $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} a
+    $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} .detalle
     ,#cuadradosColores,#graficaDiv`).remove()
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
@@ -138,8 +157,6 @@ function cargarGrafica() {
         $("#cuadradosColores").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`)
     })
 }
-
-
 
 function cargarShiny(e) {
     $(e).click(function () {
@@ -328,6 +345,7 @@ function getIcon(key) {
             return key
     }
 }
+
 function getTraduccion(key) {
     switch (key) {
         case "fighting":

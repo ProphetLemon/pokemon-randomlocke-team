@@ -58,7 +58,10 @@ router.post("/buscar", async (req, res) => {
     res.send(`<img class="pokemonIcon" src="${defaultImage}" default="${imagen}" shiny="${shiny}"/>
         ${getIcon(type1.name)}
         ${type2.name ? getIcon(type2.name) : ''}
-        <a href="../?pokemon=${pokemon.name}" target="_blank">Detalles</a>
+        <br>
+        <button type="button" onclick="cargarDetalle(this)" class="btn btn-link mb-1 detalle" data-bs-toggle="modal" data-bs-target="#detalleModal">
+           Detalles
+        </button>
     <span class="d-none debilidadesResult">${debilidadesTexto}</span>
     <span class="d-none statsResult">${statsTexto}</span>
     <span class="d-none eficaciasResult">${aQuienPego}</span>`)
