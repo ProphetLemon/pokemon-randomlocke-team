@@ -118,6 +118,7 @@ function buscar(e) {
     var td = e.parent().parent().attr("id")
     $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} .detalle
     ,#cuadradosColores,#graficaDiv`).remove()
+    $(`#${td} br`).length == 2 ? $(`#${td} br`).last().remove() : ''
     if (nombre) {
         e.parent().append(`<div id="cargando" class="rounded mt-2 cuadrado"><b>Cargando...</b></div>`)
         $.post("/team/buscar", { nombre: nombre }, function (result) {
