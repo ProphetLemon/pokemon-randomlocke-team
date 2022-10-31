@@ -44,7 +44,6 @@ function init() {
 
 var randomAjax = ""
 
-
 function cargarDetalle(element, nombre) {
     $("#resultado").remove()
     if (!nombre) {
@@ -116,7 +115,7 @@ function delay(callback, ms) {
 function buscar(e) {
     var nombre = e.val().trim()
     var td = e.parent().parent().attr("id")
-    $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} .detalle
+    $(`#${td} img,#${td} .pokemonError, #${td} span, #${td} .detalle, #cargando
     ,#cuadradosColores,#graficaDiv`).remove()
     $(`#${td} br`).length == 2 ? $(`#${td} br`).last().remove() : ''
     if (nombre) {
@@ -387,6 +386,5 @@ function getTraduccion(key) {
             return "Volador"
     }
 }
-
 
 init()

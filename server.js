@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-var path = require('path');
+const path = require('path');
 require('dotenv').config();
 const methodOverride = require('method-override');
 app.set('view engine', 'ejs')
@@ -34,7 +34,6 @@ app.post('/buscar', (req, res) => {
     })
     res.send(resultados.join(""))
 })
-
 
 app.post('/pokemon', async (req, res) => {
     var nombre = req.body.nombre
