@@ -55,6 +55,19 @@ app.post('/pokemon', async (req, res) => {
             return res.send("<b>No encontré el pokemon</b>")
         }
     }
+    var abilities = "<ul>"
+    for (let ability of pokemon.abilities) {
+        let abilityInfo = await P.getAbilityByName(ability.ability.name)
+        abilities += `<li><b>${abilityInfo.names[5].name}${ability.is_hidden ? " (hab. oculta)" : ""}: </b>`
+        for (flavor of abilityInfo.flavor_text_entries) {
+            if (flavor.language.name == "es") {
+                abilities += `${flavor.flavor_text} </li>`
+                break;
+            }
+        }
+
+    }
+    abilities += "</ul>"
     var imagen = pokemon.sprites.front_default ? `<img class="pokemonIcon" src="${pokemon.sprites.front_default}" />` : '<img class="pokemonIco" src="/img/missingno.png" />'
     var shiny = pokemon.sprites.front_shiny ? `<img class="pokemonIcon" src="${pokemon.sprites.front_shiny}" />` : '<img class="pokemonIco" src="/img/missingnoshiny.png" />'
     var legendario = especie.is_legendary
@@ -132,6 +145,7 @@ app.post('/pokemon', async (req, res) => {
         <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}${shiny}</td></tr>
         <tr><td id="evoluciones" class="border border-secondary" colspan="2">${evoluciones}</td></tr>
         <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">Nº ${especie.pokedex_numbers[0].entry_number}${especie.pokedex_numbers[0].pokedex.name == 'national' ? '' : ` - ${especie.pokedex_numbers[0].pokedex.name}`}</td></tr>
+        <tr><td colspan="2" class="border border-secondary text-start">${abilities}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>RELACIÓN DE DAÑO</b></td></tr>
