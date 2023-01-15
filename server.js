@@ -144,7 +144,7 @@ app.post('/pokemon', async (req, res) => {
         <table id="resultado" class="rounded-top mt-3 mb-3 col-10">
         <tr><td class="border border-secondary rounded-top" colspan="2">${imagen}${shiny}</td></tr>
         <tr><td id="evoluciones" class="border border-secondary" colspan="2">${evoluciones}</td></tr>
-        <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">Nº ${especie.pokedex_numbers[0].entry_number}${especie.pokedex_numbers[0].pokedex.name == 'national' ? '' : ` - ${especie.pokedex_numbers[0].pokedex.name}`}</td></tr>
+        <tr><td class="border border-secondary">${legendario ? "<b>LEGENDARIO</b>" : mitico ? "<b>MÍTICO</b>" : "Común"}</td><td class="border border-secondary">Nº ${especie.pokedex_numbers[0] ? especie.pokedex_numbers[0].entry_number : ""}${especie.pokedex_numbers[0] ? (especie.pokedex_numbers[0].pokedex.name == 'national' ? '' : ` - ${especie.pokedex_numbers[0].pokedex.name}`) : "?"}</td></tr>
         <tr><td colspan="2" class="border border-secondary text-start">${abilities}</td></tr>
         <tr><td class="border border-secondary" colspan="2"><b>TIPOS</b></td></tr>
         <tr><td class="border border-secondary"><b>${type1.names[5].name}</b>${getIcon(type1.name)}</td><td class="border border-secondary">${type2 != "" ? `<b>${type2.names[5].name + "</b>" + getIcon(type2.name)}` : ""}</td></tr>
