@@ -26,12 +26,12 @@ app.post('/buscar', (req, res) => {
     for (let pokemon of pokemonJson) {
         if (pokemon.name.toLowerCase().startsWith(nombre)) {
             resultados.push(`<option value="${pokemon.name}">`)
-            if (resultados.length == 10) break;
         }
     }
     resultados.sort(function (a, b) {
-        return a > b ? 1 : a < b ? -1 : 0
+        return a > b ? 1 : (a < b ? -1 : 0)
     })
+    resultados = resultados.splice(0,10)
     res.send(resultados.join(""))
 })
 
