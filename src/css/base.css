@@ -6,6 +6,36 @@ body {
     text-align: center;
 }
 
+@font-face {
+    font-family: Atkinson;
+    src: url(/font/AtkinsonHyperlegible-Regular.ttf);
+    font-weight: normal;
+  }
+
+  @font-face {
+    font-family: Atkinson;
+    src: url(/font/AtkinsonHyperlegible-Bold.ttf);
+    font-weight: bold;
+  }
+
+  @font-face {
+    font-family: Atkinson;
+    src: url(/font/AtkinsonHyperlegible-BoldItalic.ttf);
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: Atkinson;
+    src: url(/font/AtkinsonHyperlegible-Italic.ttf);
+    font-weight: normal;
+    font-style: italic;
+  }
+
+body{
+    font-family: Atkinson;
+}
+
 .inline {
     display: inline;
 }
