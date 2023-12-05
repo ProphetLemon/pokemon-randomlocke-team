@@ -1,111 +1,107 @@
 #teamtable td {
-    height: 240px;
-    min-width: 160px;
-    background-color: #dddbc2;
-    display: table-cell;
-    vertical-align: initial;
+  min-height: 240px;
+  min-width: 160px;
+  background-color: #dddbc2;
+  display: table-cell;
+  vertical-align: initial;
 }
 
 #grafico {
-    min-width: -webkit-fill-available;
+  min-width: -webkit-fill-available;
 }
 
 .modal-body {
-    text-align: center;
+  text-align: center;
 }
 
 #teamtable img {
-    max-width: 30px;
+  max-width: 30px;
 }
 
 .seleccionado-danger {
-    background-color: #ff8282 !important;
+  background-color: #ff8282 !important;
 }
 
 .sombreado {
-    background-color: #00000040;
+  background-color: #00000040;
 }
 
 .seleccionado-recomendacion {
-    background-color: white !important;
+  background-color: white !important;
 }
 
 .seleccionado-safe {
-    background-color: #5ec4ff !important;
+  background-color: #5ec4ff !important;
 }
 
 .seleccionado-inmune {
-    background-color: #797979 !important;
+  background-color: #797979 !important;
 }
 
 .seleccionado-eficaz {
-    background-color: #81ff81 !important;
+  background-color: #81ff81 !important;
 }
 
 .buscador {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 img {
-    max-width: 40px;
-    width: auto;
+  max-width: 40px;
+  width: auto;
 }
 
 #cuadradosColores img {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #debilidadesTexto,
 #coberturaTexto,
 #inmunidadTexto {
-    display: inline-table;
+  display: inline-table;
 }
 
 #graficaDiv {
-    background-color: #dddbc2;
+  background-color: #dddbc2;
 }
 
 .grafica {
-    width: auto !important;
-    max-width: -webkit-fill-available;
-}
-
-.menu {
-    min-width: max-content;
+  width: auto !important;
+  max-width: -webkit-fill-available;
 }
 
 @media only screen and (max-width: 736px) {
-    .inline {
-        display: -webkit-inline-box;
-    }
+  .inline {
+    display: -webkit-inline-box;
+  }
 
-    #teamtable td {
-        display: block;
-        margin-bottom: 10px;
-        max-width: 80px;
-    }
+  #teamtable td {
+    display: block;
+    margin-bottom: 10px;
+    max-width: 80px;
+  }
 
-    #teamtable tr {
-        text-align: -webkit-center;
-    }
+  #teamtable tr {
+    text-align: -webkit-center;
+  }
 
-    #teamtable {
-        width: auto !important;
-    }
+  #teamtable {
+    width: auto !important;
+  }
 }
 
 #cuadradosColores {
-    max-width: 521px;
+  max-width: 521px;
 }
 
 #teamtable {
-    border-spacing: 20px;
-    border-collapse: separate;
-    background-color: transparent;
-    width: min-content;
+  border-spacing: 20px;
+  border-collapse: separate;
+  background-color: transparent;
+  width: min-content;
 }
 
 .pokemonIcon {
-    min-width: fit-content;
-    cursor: pointer;
+  min-width: fit-content;
+  cursor: pointer;
 }
