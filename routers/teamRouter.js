@@ -64,14 +64,14 @@ router.post("/buscar", async (req, res) => {
            Detalles
         </button>
         <br>
-       <!-- <span>${evoluciones}</span>-->
+        <span>${evoluciones}</span>
     <span class="d-none debilidadesResult">${debilidadesTexto}</span>
     <span class="d-none statsResult">${statsTexto}</span>
     <span class="d-none eficaciasResult">${aQuienPego}</span>
     <script>
-   <!-- $(".evolucion").click(function (e) {
+   $(".evolucion").click(function (e) {
         cambiarPokemon(e)
-    })-->
+    })
     </script>`);
 });
 
