@@ -110,31 +110,26 @@ router.post("/recomendaciones", async (req, res) => {
   res.send(recomendaciones);
 });
 
+//https://quickchart.io/sandbox#%7B%0A%20%20type%3A%20%27bar%27%2C%0A%20%20data%3A%20%7B%0A%20%20%20%20labels%3A%20%5B%27January%27%2C%20%27February%27%2C%20%27March%27%2C%20%27April%27%2C%20%27May%27%2C%20%27June%27%2C%20%27July%27%5D%2C%0A%20%20%20%20datasets%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20label%3A%20%27Dataset%201%27%2C%0A%20%20%20%20%20%20%20%20backgroundColor%3A%20%27rgb(255%2C%2099%2C%20132)%27%2C%0A%20%20%20%20%20%20%20%20stack%3A%20%27Stack%200%27%2C%0A%20%20%20%20%20%20%20%20data%3A%20%5B3%2C%20-12%2C%20-31%2C%2082%2C%20-33%2C%2012%2C%20-67%5D%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20label%3A%20%27Dataset%202%27%2C%0A%20%20%20%20%20%20%20%20backgroundColor%3A%20%27rgb(54%2C%20162%2C%20235)%27%2C%0A%20%20%20%20%20%20%20%20stack%3A%20%27Stack%200%27%2C%0A%20%20%20%20%20%20%20%20data%3A%20%5B79%2C%2083%2C%2039%2C%207%2C%2065%2C%2083%2C%2034%5D%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20label%3A%20%27Dataset%203%27%2C%0A%20%20%20%20%20%20%20%20backgroundColor%3A%20%27rgb(75%2C%20192%2C%20192)%27%2C%0A%20%20%20%20%20%20%20%20stack%3A%20%27Stack%201%27%2C%0A%20%20%20%20%20%20%20%20data%3A%20%5B40%2C%20-51%2C%2045%2C%2093%2C%20-80%2C%20-79%2C%20-93%5D%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%7D%2C%0A%20%20options%3A%20%7B%0A%20%20%20%20title%3A%20%7B%0A%20%20%20%20%20%20display%3A%20true%2C%0A%20%20%20%20%20%20text%3A%20%27Chart.js%20Bar%20Chart%20-%20Stacked%27%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20tooltips%3A%20%7B%0A%20%20%20%20%20%20mode%3A%20%27index%27%2C%0A%20%20%20%20%20%20intersect%3A%20false%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20responsive%3A%20true%2C%0A%20%20%20%20scales%3A%20%7B%0A%20%20%20%20%20%20xAxes%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20stacked%3A%20true%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20yAxes%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20stacked%3A%20true%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A
 router.post("/grafica", async (req, res) => {
   const myChart = new QuickChart();
-  myChart.setConfig({
+  var config = {
     type: "horizontalBar",
     data: {
       labels: ["PS", "ATQ", "DEF", "AT. ESP", "DEF. ESP", "VEL"],
-      datasets: [
-        {
-          label: "Stats",
-          data: [req.body["datos[]"][0], req.body["datos[]"][1], req.body["datos[]"][2], req.body["datos[]"][3], req.body["datos[]"][4], req.body["datos[]"][5]],
-          backgroundColor: ["rgb(83,205,91)", "rgb(246,222,82)", "rgb(237,127,15)", "rgb(86,176,241)", "rgb(173,98,246)", "rgb(240,106,206)"],
-        },
-      ],
     },
     options: {
       legend: {
-        display: false,
+        display: true,
       },
       scales: {
         xAxes: [
           {
             ticks: {
               beginAtZero: true,
-              max: 255,
-              stepSize: 85,
+              stacked: true,
+              // max: 255,
+              //stepSize: 85,hol
               fontColor: "#000000",
             },
           },
@@ -142,6 +137,7 @@ router.post("/grafica", async (req, res) => {
         yAxes: [
           {
             ticks: {
+              stacked: true,
               fontColor: "#000000",
             },
           },
@@ -158,7 +154,18 @@ router.post("/grafica", async (req, res) => {
         },
       },
     },
-  });
+  };
+  var datasets = [];
+  var datosRaw = JSON.parse(req.body["datos"]);
+  for (let datosPokemon of datosRaw) {
+    var json = {};
+    json.label = datosPokemon[0];
+    json.data = datosPokemon.splice(1, datosPokemon.length);
+    json.stack = "Stack 0";
+    datasets.push(json);
+  }
+  config.data.datasets = datasets;
+  myChart.setConfig(config);
   myChart.setFormat("png");
   myChart.setBackgroundColor("#ffffff00");
   const url = await myChart.getShortUrl();

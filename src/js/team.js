@@ -175,27 +175,19 @@ function cargarGrafica() {
   if (statsTeam.length == 0) {
     return;
   }
-  function recorrerStats(statsTeam, attr) {
-    var stat = 0;
-    $(statsTeam).each(function (index, element) {
-      stat += Number(element.innerText.split(",")[attr]);
-    });
-    return Math.floor(stat / statsTeam.length);
-  }
-  var hp = recorrerStats(statsTeam, 0);
-  var atq = recorrerStats(statsTeam, 1);
-  var def = recorrerStats(statsTeam, 2);
-  var satq = recorrerStats(statsTeam, 3);
-  var sdef = recorrerStats(statsTeam, 4);
-  var speed = recorrerStats(statsTeam, 5);
-  var datos = [hp, atq, def, satq, sdef, speed];
+  var datos = [];
+  statsTeam.each(function (index, element) {
+    var pokemonName = $(element).parent().find("input").val();
+    var datosAux = [pokemonName].concat(element.innerText.split(","));
+    datos.push(datosAux);
+  });
   $.post(
     "/team/grafica",
     {
-      datos: datos,
+      datos: JSON.stringify(datos),
     },
     function (result) {
-      $("#cuadradosColores").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>STATS MEDIA</b><br> <img class="grafica" src="${result}" /></div>`);
+      $("#cuadradosColores").after(`<div id="graficaDiv" class="cuadrado mt-2"><b>ESTADÍSTICAS DEL EQUIPO</b><br> <img class="grafica" src="${result}" /></div>`);
     }
   );
 }
