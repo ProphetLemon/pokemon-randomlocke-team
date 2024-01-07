@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokémon</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/team.css">
   <link rel="stylesheet" href="/css/index.css">
@@ -14,16 +14,29 @@
 </head>
 
 <body>
-  <div class="container col-12 mt-5">
-    <div id="teamBuilder" class="container">
-      <div class="container menu mb-5">
-        <div class="rounded inline cuadrado">
-          <a href="/"><b>Buscar por nombre de Pokémon</b></a>
-        </div>
-        <div class="rounded inline ms-2 mt-2 cuadrado">
-          <a href="/tabletypes"><b>Tabla Tipos</b></a>
+  <div class="container col-12">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">InfoPokemon</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/">Buscar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tabletypes">Tabla de tipos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/team">Creador de equipo</a>
+            </li>
+          </ul>
         </div>
       </div>
+    </nav>
+    <div id="teamBuilder" class="container">      
       <div class="container">
         <div class="rounded mb-2 cuadrado">
           <b>Creador de equipos</b>
@@ -47,8 +60,8 @@
     </div>
   </div>
   <script src="https://kit.fontawesome.com/c0c7c7cb12.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="/js/team.js"></script>
 
   <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">

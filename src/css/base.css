@@ -1,70 +1,74 @@
 body {
-    background-image: url('/img/pattern.jpg');
+  background-image: url("/img/pattern.jpg");
 }
 
 .container {
-    text-align: center;
+  text-align: center;
 }
 
 @font-face {
-    font-family: Atkinson;
-    src: url(/font/AtkinsonHyperlegible-Regular.ttf);
-    font-weight: normal;
-  }
+  font-family: Atkinson;
+  src: url(/font/AtkinsonHyperlegible-Regular.ttf);
+  font-weight: normal;
+}
 
-  @font-face {
-    font-family: Atkinson;
-    src: url(/font/AtkinsonHyperlegible-Bold.ttf);
-    font-weight: bold;
-  }
+@font-face {
+  font-family: Atkinson;
+  src: url(/font/AtkinsonHyperlegible-Bold.ttf);
+  font-weight: bold;
+}
 
-  @font-face {
-    font-family: Atkinson;
-    src: url(/font/AtkinsonHyperlegible-BoldItalic.ttf);
-    font-weight: bold;
-    font-style: italic;
-  }
+@font-face {
+  font-family: Atkinson;
+  src: url(/font/AtkinsonHyperlegible-BoldItalic.ttf);
+  font-weight: bold;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: Atkinson;
-    src: url(/font/AtkinsonHyperlegible-Italic.ttf);
-    font-weight: normal;
-    font-style: italic;
-  }
+@font-face {
+  font-family: Atkinson;
+  src: url(/font/AtkinsonHyperlegible-Italic.ttf);
+  font-weight: normal;
+  font-style: italic;
+}
 
-body{
-    font-family: Atkinson;
+body {
+  font-family: Atkinson;
 }
 
 .inline {
-    display: inline;
+  display: inline;
 }
 
 .center {
-    text-align: center;
-    margin: auto;
+  text-align: center;
+  margin: auto;
 }
 
 img {
-    width: 15%;
+  width: 15%;
 }
 
 .modal-header,
 .modal-content,
 .modal-body,
 .modal-footer {
-    border: 0px;
-    background-color: transparent;
+  border: 0px;
+  background-color: transparent;
 }
 
 table {
-    background-color: #dddbc2;
-    margin: auto;
+  background-color: #dddbc2;
+  margin: auto;
+}
+
+.navbar {
+  background-color: rgb(237, 222, 95) !important;
 }
 
 .cuadrado {
-    background-color: rgb(237, 222, 95);
-    max-width: fit-content;
-    margin: auto;
-    padding: 0.5rem !important;
+  background-color: rgb(237, 222, 95);
+  max-width: fit-content;
+  margin: auto;
+  padding: 0.5rem !important;
 }
